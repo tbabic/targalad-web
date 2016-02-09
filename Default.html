@@ -1,0 +1,749 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="site.css"/>
+    <link rel="stylesheet" href="http://domain.tld/mobile.css" type="text/css" media="handheld" />
+    <title></title>
+    <!-- Main scripts-->
+    
+    <script type="text/javascript">
+        function level() {
+            return 9;
+        }
+
+        function bab() {
+            return 6;
+        }
+
+        function initialize() {
+            document.getElementById('catId').checked = false;
+            document.getElementById('shieldId').checked = false;
+            document.getElementById('gmwId').checked = false;
+            document.getElementById('hasteId').checked = false;
+
+            document.getElementById('spellCmbtId').checked = false;
+            document.getElementById('arcStrId').checked = false;
+            document.getElementById('accStrId').checked = false;
+            document.getElementById('fightDefId').checked = false;
+            document.getElementById('totalDefId').checked = false;
+
+            document.getElementById('mainSection').style.display = 'block';
+            document.getElementById('spellsSection').style.display = 'none';
+            document.getElementById('memorizedSection').style.display = 'none';
+            document.getElementById('descriptionSection').style.display = 'none';
+            calculate();
+        }
+
+        function mainClick() {
+            document.getElementById('mainSection').style.display = 'block';
+            document.getElementById('spellsSection').style.display = 'none';
+            document.getElementById('currSpellLvlId').textContent = 0;
+            
+        }
+
+        function spellsClick() {
+            document.getElementById('mainSection').style.display = 'none';
+            document.getElementById('spellsSection').style.display = 'block';
+            document.getElementById('showAllSpells').checked = true;
+            showSpellLevelSection();
+            showSpellBook();
+        }
+
+        function memorizedClick() {
+            document.getElementById('mainSection').style.display = 'none';
+            document.getElementById('spellsSection').style.display = 'block';
+            document.getElementById('showAllSpells').checked = false;
+            showSpellLevelSection();
+            showMemorized();
+        }
+
+
+        
+    
+    </script>
+    
+    
+    <!-- Main section scripts-->
+    <script type="text/javascript">
+        
+        
+
+        function calculate() {
+            var dex = document.getElementById('dexId').textContent;
+            dex = +dex - +10;
+            dex = Math.floor(dex / 2);
+            var base = 10;
+            var armor = armorBonus();
+            var maxDex = armorMaxDex();
+            if (parseInt(maxDex, 10) < parseInt(dex, 10)) {
+                dex = maxDex;
+            }
+            var enhancement = armorMagic();
+            var luckBracers = 1;
+            var dance = 2;
+            var amulet = 1;
+            var shield = shieldBonus();
+            var haste = hasteBonus();
+            var dodge = 0 + +haste;
+            var arcStr = arcaneStrike();
+            var accStr = accurateStrike();
+            var spellCmb = spellCombat();
+            var focus = 1;
+            var alphlang = alphlangBonus();
+
+            var fightDef = document.getElementById('fightDefId').checked;
+            var totalDef = document.getElementById('totalDefId').checked;
+            var acFightDef = 0
+            var toHitFightDef = 0;
+
+            if (totalDef == true) {
+                dodge = +dodge + +6;
+            }
+            else if (fightDef == true) {
+                dodge = +dodge + +3;
+                toHitFightDef = -4;
+
+            }
+            var acNormal = +base + +armor + +dex + +enhancement + +luckBracers + +dance + +amulet + +shield + +dodge;
+            document.getElementById('acNormalId').textContent = acNormal;
+
+            var acFlat = +base + +armor + +enhancement + +luckBracers + +dance + +amulet + +shield;
+            document.getElementById('acFlatId').textContent = acFlat;
+
+            var acTouch = +base +  +dex +  +luckBracers + +dance + +dodge;
+            document.getElementById('acTouchId').textContent = acTouch;
+
+
+
+
+
+            var toHit = +bab() + +dex + +focus + +alphlang + +accStr + +spellCmb + +haste + +toHitFightDef;
+            var toHit2 = +toHit - +5;
+            
+            var attacks1 = 1;
+            var attacks2 = 1;
+            if (document.getElementById('hasteId').checked == true)
+                attacks1 = +attacks1 + +1;
+            if (document.getElementById('spellCmbtId').checked == true)
+                attacks1 = +attacks1 + +1;
+            var dmg = +dex + +alphlang + +arcStr;
+
+            if (totalDef == true) {
+                attacks1 = 0;
+                attacks2 = 0;
+                toHit = "";
+                toHit2 = "";
+                dmg = "";
+            }
+
+            document.getElementById('tohit1Id').textContent = toHit;
+            document.getElementById('attacks1Id').textContent = attacks1;
+            document.getElementById('tohit2Id').textContent = toHit2;
+            document.getElementById('attacks2Id').textContent = attacks2;         
+            document.getElementById('dmgId').textContent = dmg;
+
+
+
+
+
+        }
+
+        function armorMaxDex() {
+            return 6;
+        }
+
+        function armorMagic() {
+            return 1;
+        }
+
+        function armorBonus() {
+            return 4;
+        }
+
+        function catsGrace() {
+            
+            var dex = +document.getElementById('dexId').textContent;
+            var cat = document.getElementById('catId').checked;
+            if(cat == true)
+                document.getElementById('dexId').textContent = (+dex + +4);
+            else
+                document.getElementById('dexId').textContent = (+dex - +4);
+            calculate();
+        }
+
+
+        function shieldBonus() {
+            var chk = document.getElementById('shieldId').checked;
+            var bonus = 0;
+            if (chk == true)
+                bonus = 4;
+            return bonus;
+        }
+
+        function hasteBonus() {
+            var chk = document.getElementById('hasteId').checked;
+            var bonus = 0;
+            if (chk == true)
+                bonus = 1;
+            return bonus;
+        }
+
+        function accurateStrike() {
+            var chk = document.getElementById('accStrId').checked;
+            var bonus = 0;
+            if (chk == true) {
+                var int = document.getElementById('intId').textContent;
+                int = +int - +10;
+                int = Math.floor(int / 2);
+                bonus = int;
+            }
+            return bonus;
+        }
+
+        function arcaneStrike() {
+            var chk = document.getElementById('arcStrId').checked;
+            var bonus = 0;
+            if (chk == true) {
+                var lvl = level();
+                bonus = lvl / 5;
+                bonus = +bonus + +1;
+            }
+            return Math.floor(bonus);
+        }
+
+        function spellDance() {
+            var lvl = +level() - +1;
+            var bonus = lvl / 4;
+            bonus = +bonus + +2;
+            return Math.floor(bonus);
+        }
+
+        function alphlangBonus() {
+            var chk = document.getElementById('gmwId').checked;
+            var bonus = 1;
+            if (chk == true)
+                bonus = level() / 4;
+            return Math.floor(bonus);
+            
+        }
+
+        function spellCombat(){
+            var chk = document.getElementById('spellCmbtId').checked;
+            var bonus = 0;
+            if (chk == true)
+                bonus = -2;
+            return bonus;        
+        }
+
+        function attackBonus() {
+        }
+
+
+        
+
+    </script>
+    
+    <!-- Spells scripts-->
+    <script type="text/javascript">
+
+        function showMemorized() {
+            for (var spellLevel = 0; spellLevel <= 6; spellLevel++) {
+                var maxNumber = document.getElementById('lvl' + spellLevel + 'AllMax');
+                var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
+                var spellTable = document.getElementById('spellTable_' + spellLevel + '_id').children[0];
+                for (var i = 0; i < spellTable.children.length; i++) {
+                    var buttons = spellTable.children[i].children[1];
+                    findChild(buttons, 'memId').style.display = 'none';
+                    findChild(buttons, 'demId').style.display = 'none';
+                    findChild(buttons, 'cstId').style.display = '';
+                    findChild(buttons, 'rclId').style.display = '';
+                    if (findChild(buttons, 'memNumId').textContent > 0) {
+                        spellTable.children[i].style.display = '';
+                    }
+                    else {
+                        spellTable.children[i].style.display = 'none';
+                    }
+                }
+            }
+            
+        }
+
+        function showSpellBook() {
+            for (var spellLevel = 0; spellLevel <= 6; spellLevel++) {
+                var maxNumber = document.getElementById('lvl' + spellLevel + 'AllMax');
+                var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
+                var spellTable = document.getElementById('spellTable_' + spellLevel + '_id').children[0];
+                for (var i = 0; i < spellTable.children.length; i++) {
+                    spellTable.children[i].style.display = '';
+                    var buttons = spellTable.children[i].children[1];
+                    findChild(buttons, 'memId').style.display = '';
+                    findChild(buttons, 'demId').style.display = '';
+                    findChild(buttons, 'cstId').style.display = 'none';
+                    findChild(buttons, 'rclId').style.display = 'none';
+                }
+            }
+        }
+        
+        
+        
+        function showSpellLevelSection(spellsLevel) {
+
+            if (spellsLevel == undefined) {
+                spellsLevel = document.getElementById('currSpellLvlId').textContent;
+            }           
+            document.getElementById('currSpellLvlId').textContent = spellsLevel;
+            try{
+                for (var i = 0; i <=6; i++) {
+                    var id = 'all' + i + 'SpellsId';
+                    
+                    if (i == spellsLevel) {
+                        document.getElementById(id).style.display = 'block';
+                        var maxNum = maxNumSpells(spellsLevel);
+                        var idMax='lvl'+i+'AllMax';
+                        var idCurr = 'lvl' + i + 'AllCurr';
+                        document.getElementById(idMax).textContent = maxNum;
+                    }
+                    else {
+                        document.getElementById(id).style.display = 'none';
+                    }
+                }
+            }
+            catch(err)
+            {
+            }
+            reEvaluateAll(spellsLevel);
+
+            
+        }
+        
+        function maxNumSpells(spellsLevel) {
+            var charLevel = level();
+            var number = 0;
+            var intelligence = document.getElementById('intId').textContent;
+            var relative = charLevel - +(3 * spellsLevel) + +3;
+            var baseNum = 1;
+            if (relative >= 2) {
+                baseNum = 2;
+            }
+            if (relative >= 3) {
+                baseNum = 3;
+            }
+            if ((relative >= 5 && spellsLevel <= 5) || (relative >=4 && spellsLevel == 6)) {
+                baseNum = 4;
+            }
+            if ((relative >= 9 && spellsLevel <= 4) || (relative >=7 && spellsLevel == 5) || (relative >=5 && spellsLevel == 6)) {
+                baseNum = 5;
+            }
+
+            var atr = document.getElementById('intId').textContent;
+            atr = +atr - +10;
+            atr = Math.floor(atr / 2);
+            var bonusNum = 0;
+            bonusNum = (atr - +spellsLevel);
+            bonusNum = Math.floor(bonusNum / 2);
+            if (spellsLevel == 0) {
+                bonusNum = 0;
+            }
+            number = baseNum + +bonusNum;
+
+            return number;
+        }
+
+        function desc() {
+
+            var spellId = this.document.activeElement.parentNode.parentNode.id;
+            var descId = spellId + '_desc';
+            var doc = document.getElementById('descriptionSection').children[0].getSVGDocument();
+            var description = doc.getElementById(descId).textContent;
+            var mem = window.confirm(description);
+            if (mem == true) {
+                memorize(spellId);
+            }
+            
+        }
+
+
+        function findChild(elem, id) {
+            var retChild;
+            for (var i = 0; i < elem.children.length; i++) {
+                var child = elem.children[i];
+                if (child.attributes.id.value == id) {
+                    return child;
+                }
+            }
+        }
+
+        function spellsNumber(elem, actionId, value) {
+            var parent = elem;
+            var child = findChild(parent, actionId);
+            if (child.attributes.id.value == actionId) {
+                var newValue = +child.textContent + +value;
+				if(newValue < 0) {
+					newValue = 0;
+				}
+                child.textContent = newValue;
+            }
+        }
+                
+        function reEvaluateAll(spellLevel, reset) {
+
+            if (spellLevel == undefined) {
+                spellLevel = document.getElementById('currSpellLvlId').textContent;
+            }
+            var maxNumber = document.getElementById('lvl' + spellLevel + 'AllMax');
+            var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
+            var spellTable = document.getElementById('spellTable_' + spellLevel + '_id').children[0];
+            for (var i = 0; i < spellTable.children.length; i++) {
+                var buttons = spellTable.children[i].children[1];
+                memorizeBtn = findChild(buttons, 'memId');
+                dememorizeBtn = findChild(buttons, 'demId');
+                castBtn = findChild(buttons, 'cstId');
+                recallBtn = findChild(buttons, 'rclId');
+                memorizedNum = findChild(buttons, 'memNumId');
+                remainingNum = findChild(buttons, 'remNumId');
+				if(reset == true)
+				{
+					memorizedNum.textContent = 0;
+					remainingNum.textContent = 0;
+				}
+
+                if (currNumber.textContent >= maxNumber.textContent) {
+                    memorizeBtn.disabled = true;
+                }
+                else {
+                    memorizeBtn.disabled = false;
+                }
+                if (memorizedNum.textContent <= 0 || remainingNum.textContent <= 0) {
+                    dememorizeBtn.disabled = true;
+                    castBtn.disabled = true;
+                }
+                else {
+                    dememorizeBtn.disabled = false;
+                    castBtn.disabled = false;
+                }
+                if (remainingNum.textContent >= memorizedNum.textContent) {
+                    recallBtn.disabled = true;
+                }
+                else {
+                    recallBtn.disabled = false;
+                }
+            }
+            
+        }
+
+        function memorize(spellId, spellLevel) {
+            var parent;
+            if (spellId == undefined) {
+                parent = this.document.activeElement.parentNode;
+            }
+            else {
+                parent = document.getElementById(spellId).children[1];
+            }
+        
+			if(spellLevel == undefined) {
+				spellLevel = document.getElementById('currSpellLvlId').textContent;
+			}
+            
+            spellsNumber(parent, 'memNumId', +1);
+            spellsNumber(parent, 'remNumId', +1);
+
+            
+            var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
+            currNumber.textContent = +currNumber.textContent + +1;
+            reEvaluateAll(spellLevel);
+                        
+            
+        }
+
+        function dememorize(spellId, spellLevel) {
+            var parent;
+            if (spellId == undefined) {
+                parent = this.document.activeElement.parentNode;
+            }
+            else {
+                parent = document.getElementById(spellId).children[1];
+            }
+        
+			if(spellLevel == undefined) {
+				spellLevel = document.getElementById('currSpellLvlId').textContent;
+			}
+            spellsNumber(parent, 'memNumId', -1);
+            spellsNumber(parent, 'remNumId', -1);
+
+            var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
+            currNumber.textContent = +currNumber.textContent + -1;
+            reEvaluateAll(spellLevel);
+        }
+
+
+        function castSpell() {
+            
+            var parent = this.document.activeElement.parentNode;
+            spellsNumber(parent, 'remNumId', -1);
+            reEvaluateAll();
+        }
+
+        function recall() {
+            var parent = this.document.activeElement.parentNode;
+            spellsNumber(parent, 'remNumId', +1);
+            reEvaluateAll();
+        }
+
+        function memorizeDefault() {
+            
+            memorize('Arcane_Mark_Id',0);
+			memorize('Dancing_Lights_Id',0);
+			memorize('Acid_Splash_Id',0);
+			memorize('Detect_Magic_Id',0);
+            memorize('Mage_Hand_Id',0);
+            
+            memorize('Shocking_Grasp_Id',1);
+            memorize('Shocking_Grasp_Id',1);
+			memorize('Chill_Touch_Id',1);
+			memorize('Shield_Id',1);
+			memorize('Shield_Id',1);
+			memorize('Vanish_Id',1);
+			memorize('Weaponwand_Id',1);
+			
+			memorize('Mirror_Image_Id',2);
+			memorize("Cat's_Grace_Id",2);
+			memorize("Cat's_Grace_Id",2);
+			memorize('Bladed_Dash_Id',2);
+			memorize('Glitterdust_Id',2);
+			
+			memorize('Magic_Weapon,_Greater_Id',3);
+			memorize('Fireball_Id',3);
+			memorize('Fly_Id',3);
+			memorize('Elemental_Aura_Id',3);
+        }
+
+        function clearAll() {
+			for (var spellLevel = 0; spellLevel <= 6; spellLevel++) {
+				var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
+				currNumber.textContent = 0;
+                reEvaluateAll(spellLevel, true);
+			}
+					
+        }
+        
+        
+    </script>
+    
+    <!-- Memorized scripts-->
+    <script type="text/javascript">
+        
+    </script>
+</head>
+<body>
+
+<input id="showAllSpells" type="checkbox" style="display:none"/>
+
+<div class="menu">
+<input id="mainBtnId" type="button" value="MAIN" onclick="mainClick();" />
+<input id="spellsBtnId" type="button" value="SPELLBOOK" onclick="spellsClick();"/>
+<input id="memBtnId" type="button" value="MEMORIZED" onclick="memorizedClick();"/>
+</div>
+
+<div class="belowMenu"/>
+<table id="mainSection">
+<tr><td>
+    <div id="contentBox" style="margin:0px auto; width:auto">
+
+ <!-- columns divs, float left, no margin so there is no space between column, width=1/3 -->
+        <div id="column1" style="float:left; margin:5px; width:auto;">
+            Abilities
+            <table>
+                <tr><td>Str: </td>  <td id="strId">09</td></tr>
+                <tr><td>Dex: </td>  <td id="dexId">19</td></tr>
+                <tr><td>Con: </td>  <td id="conId">14</td></tr>
+                <tr><td>Int: </td>  <td id="intId">22</td></tr>
+                <tr><td>Wis: </td>  <td id="wisId">13</td></tr>
+                <tr><td>Cha: </td>  <td id="chaId">13</td></tr>
+
+            </table>
+        </div>
+        <div id="column2" style="float:left; margin:5px;width:auto;">
+            Spells
+            <table>
+            <tr><td> <input id="shieldId" type="checkbox" name="spell" value="Shield" onclick="calculate();"/>Shield </td></tr>
+            <tr><td> <input id="catId" type="checkbox" name="spell" value="Cat" onclick="catsGrace();"/>Cat's grace </td></tr>
+            <tr><td> <input id="hasteId" type="checkbox" name="spell" value="Haste" onclick="calculate();"/>Haste </td></tr>
+            <tr><td> <input id="gmwId" type="checkbox" name="spell" value="Gmw" onclick="calculate();"/>GMW </td></tr>
+            </table>
+        </div>
+        <div id="column3" style="float:left; margin:5px;width:auto">
+            Features
+            <table>
+            <tr><td> <input id="spellCmbtId" type="checkbox" name="feature" value="SpellCombat" onclick="calculate();"/>Spell combat </td></tr>
+            <tr><td> <input id="accStrId" type="checkbox" name="feature" value="AccurateStrike" onclick="calculate();"/>Accurate strike </td></tr>
+            <tr><td> <input id="arcStrId" type="checkbox" name="feature" value="ArcaneStrike" onclick="calculate();"/>Arcane strike </td></tr>
+            <tr><td> <input id="fightDefId" type="checkbox" name="feature" value="ArcaneStrike" onclick="calculate();"/>Fighting def</td></tr>
+            <tr><td> <input id="totalDefId" type="checkbox" name="feature" value="ArcaneStrike" onclick="calculate();"/>Total defense </td></tr>
+            </table>
+        </div>
+    </div>
+</td></tr>
+<tr><td>
+    <div id="contentBox2" style="margin:0px auto; width:auto">
+        <div id="Div1" style="float:left; margin:5px; width:auto;">
+            Armor class
+            <table>
+                <tr><td>Normal:</td> <td id="acNormalId"> </td></tr>
+                <tr><td>Flatfooted:</td> <td id="acFlatId"> </td></tr>
+                <tr><td>Touch:</td> <td id="acTouchId"> </td></tr>
+            </table>
+        </div>
+        <div id="Div2" style="float:left; margin:5px; width:auto;">
+            Offense
+            <table>
+                <tr><td>ToHit1:</td> <td id="tohit1Id"> </td> <td>x</td> <td id="attacks1Id"></td> </tr>
+                <tr><td>ToHit2:</td> <td id="tohit2Id"> </td> <td>x</td> <td id="attacks2Id"></td> </tr>
+                <tr><td>Damage:</td> <td id="die">d6</td> <td>+</td><td id="dmgId"> </td></tr>
+
+            </table>
+        </div>
+    </div>
+</td></tr>
+</table>
+
+<table id="spellsSection"><tr><td>
+    <input type="button" value="Clear all" onclick="clearAll()" style="float:left"/>
+    <input type="button" value="Default" onclick="memorizeDefault();" style="float:left"/>
+    <input type="button" value="Lock" onclick="" style="float:left"/>
+    <span id="currSpellLvlId" style="display:none">0</span>
+    
+    </td></tr><tr><td>
+    <div id="allSpellsId" style="margin:0px auto; width:auto">
+     <!-- columns divs, float left, no margin so there is no space between column, width=1/3 -->
+        
+        <input type="button" value="Level 0" onclick="showSpellLevelSection(0);" style="float:left"/>
+        <input type="button" value="Level 1" onclick="showSpellLevelSection(1);" style="float:left"/>
+        <input type="button" value="Level 2" onclick="showSpellLevelSection(2);" style="float:left"/>
+        <input type="button" value="Level 3" onclick="showSpellLevelSection(3);" style="float:left"/>
+        <input type="button" value="Level 4" onclick="showSpellLevelSection(4);" style="float:left"/>
+        <input type="button" value="Level 5" onclick="showSpellLevelSection(5);" style="float:left"/>
+        <input type="button" value="Level 6" onclick="showSpellLevelSection(6);" style="float:left"/>
+        
+        <div id="all0SpellsId" style="float:left; margin:5px; width:auto;">
+        Level 0: <span id="lvl0AllMax"> 0 </span>/<span id="lvl0AllCurr"> 0 </span>
+        <table id="spellTable_0_id">
+	        <tr id="Acid_Splash_Id"><td><a href="javascript:desc();">Acid Splash</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Arcane_Mark_Id"><td><a href="javascript:desc();">Arcane Mark</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Dancing_Lights_Id"><td><a href="javascript:desc();">Dancing Lights</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Daze_Id"><td><a href="javascript:desc();">Daze</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Detect_Magic_Id"><td><a href="javascript:desc();">Detect Magic</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Disrupt_Undead_Id"><td><a href="javascript:desc();">Disrupt Undead</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Flare_Id"><td><a href="javascript:desc();">Flare</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Ghost_Sound_Id"><td><a href="javascript:desc();">Ghost Sound</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Light_Id"><td><a href="javascript:desc();">Light</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Mage_Hand_Id"><td><a href="javascript:desc();">Mage Hand</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Open/Close_Id"><td><a href="javascript:desc();">Open/Close</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Prestidigitation_Id"><td><a href="javascript:desc();">Prestidigitation</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Ray_of_Frost_Id"><td><a href="javascript:desc();">Ray of Frost</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Read_Magic_Id"><td><a href="javascript:desc();">Read Magic</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Spark_Id"><td><a href="javascript:desc();">Spark</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+        </table></div>
+
+        <div id="all1SpellsId" style="float:left; margin:5px; width:auto;">
+        Level 1: <span id="lvl1AllMax"> 0 </span>/<span id="lvl1AllCurr"> 0 </span>
+        <table id="spellTable_1_id">
+	        <tr id="Burning_Hands_Id"><td><a href="javascript:desc();">Burning Hands</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Chill_Touch_Id"><td><a href="javascript:desc();">Chill Touch</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Color_Spray_Id"><td><a href="javascript:desc();">Color Spray</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Corrosive_Touch_Id"><td><a href="javascript:desc();">Corrosive Touch</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Expeditious_Retreat_Id"><td><a href="javascript:desc();">Expeditious Retreat</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Frostbite_Id"><td><a href="javascript:desc();">Frostbite</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Grease_Id"><td><a href="javascript:desc();">Grease</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Hydraulic_Push_Id"><td><a href="javascript:desc();">Hydraulic Push</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Jump_Id"><td><a href="javascript:desc();">Jump</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Longshot_Id"><td><a href="javascript:desc();">Longshot</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Magic_Missile_Id"><td><a href="javascript:desc();">Magic Missile</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Obscuring_Mist_Id"><td><a href="javascript:desc();">Obscuring Mist</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Ray_of_Enfeeblement_Id"><td><a href="javascript:desc();">Ray of Enfeeblement</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Reduce_Person_Id"><td><a href="javascript:desc();">Reduce Person</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Reinforce_Armaments_Id"><td><a href="javascript:desc();">Reinforce Armaments</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Shield_Id"><td><a href="javascript:desc();">Shield</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Shocking_Grasp_Id"><td><a href="javascript:desc();">Shocking Grasp</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Snowball_Id"><td><a href="javascript:desc();">Snowball</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="True_Strike_Id"><td><a href="javascript:desc();">True Strike</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Unerring_Weapon_Id"><td><a href="javascript:desc();">Unerring Weapon</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Unseen_Servant_Id"><td><a href="javascript:desc();">Unseen Servant</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Vanish_Id"><td><a href="javascript:desc();">Vanish</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Warding_Weapon_Id"><td><a href="javascript:desc();">Warding Weapon</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Weaponwand_Id"><td><a href="javascript:desc();">Weaponwand</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+        </table></div>
+
+        <div id="all2SpellsId" style="float:left; margin:5px; width:auto;">
+        Level 2: <span id="lvl2AllMax"> 0 </span>/<span id="lvl2AllCurr"> 0 </span>
+        <table id="spellTable_2_id">
+	        <tr id="Ablative_Barrier_Id"><td><a href="javascript:desc();">Ablative Barrier</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Acid_Arrow_Id"><td><a href="javascript:desc();">Acid Arrow</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Alter_Self_Id"><td><a href="javascript:desc();">Alter Self</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Bear's_Endurance_Id"><td><a href="javascript:desc();">Bear's Endurance</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Bladed_Dash_Id"><td><a href="javascript:desc();">Bladed Dash</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Blur_Id"><td><a href="javascript:desc();">Blur</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Brow_Gasher_Id"><td><a href="javascript:desc();">Brow Gasher</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Bull's_Strength_Id"><td><a href="javascript:desc();">Bull's Strength</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Cat's_Grace_Id"><td><a href="javascript:desc();">Cat's Grace</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Darkness_Id"><td><a href="javascript:desc();">Darkness</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Defensive_Shock_Id"><td><a href="javascript:desc();">Defensive Shock</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Fog_Cloud_Id"><td><a href="javascript:desc();">Fog Cloud</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Frigid_Touch_Id"><td><a href="javascript:desc();">Frigid Touch</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Glitterdust_Id"><td><a href="javascript:desc();">Glitterdust</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Invisibility_Id"><td><a href="javascript:desc();">Invisibility</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Minor_Image_Id"><td><a href="javascript:desc();">Minor Image</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Mirror_Image_Id"><td><a href="javascript:desc();">Mirror Image</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Pilfering_Hand_Id"><td><a href="javascript:desc();">Pilfering Hand</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Pyrotechnics_Id"><td><a href="javascript:desc();">Pyrotechnics</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Scorching_Ray_Id"><td><a href="javascript:desc();">Scorching Ray</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Stone_Call_Id"><td><a href="javascript:desc();">Stone Call</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Web_Id"><td><a href="javascript:desc();">Web</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+        </table></div>
+
+        <div id="all3SpellsId" style="float:left; margin:5px; width:auto;">
+        Level 3: <span id="lvl3AllMax"> 0 </span>/<span id="lvl3AllCurr"> 0 </span>
+        <table id="spellTable_3_id">
+	        <tr id="﻿_Id"><td><a href="javascript:desc();">﻿</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Burst_of_Speed_Id"><td><a href="javascript:desc();">Burst of Speed</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Daylight_Id"><td><a href="javascript:desc();">Daylight</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Dispel_Magic_Id"><td><a href="javascript:desc();">Dispel Magic</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Displacement_Id"><td><a href="javascript:desc();">Displacement</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Elemental_Aura_Id"><td><a href="javascript:desc();">Elemental Aura</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Fireball_Id"><td><a href="javascript:desc();">Fireball</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Flame_Arrow_Id"><td><a href="javascript:desc();">Flame Arrow</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Fly_Id"><td><a href="javascript:desc();">Fly</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Force_Hook_Charge_Id"><td><a href="javascript:desc();">Force Hook Charge</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Force_Punch_Id"><td><a href="javascript:desc();">Force Punch</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Gaseous_Form_Id"><td><a href="javascript:desc();">Gaseous Form</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Haste_Id"><td><a href="javascript:desc();">Haste</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Hydraulic_Torrent_Id"><td><a href="javascript:desc();">Hydraulic Torrent</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Keen_Edge_Id"><td><a href="javascript:desc();">Keen Edge</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Lightning_Bolt_Id"><td><a href="javascript:desc();">Lightning Bolt</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Magic_Weapon,_Greater_Id"><td><a href="javascript:desc();">Magic Weapon, Greater</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Monstrous_Physique_I_Id"><td><a href="javascript:desc();">Monstrous Physique I</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Phantom_Steed_Id"><td><a href="javascript:desc();">Phantom Steed</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Ray_of_Exhaustion_Id"><td><a href="javascript:desc();">Ray of Exhaustion</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Shining_Cord_Id"><td><a href="javascript:desc();">Shining Cord</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Sleet_Storm_Id"><td><a href="javascript:desc();">Sleet Storm</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Slow_Id"><td><a href="javascript:desc();">Slow</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Stinking_Cloud_Id"><td><a href="javascript:desc();">Stinking Cloud</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Twisted_Innards_Id"><td><a href="javascript:desc();">Twisted Innards</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Vampiric_Touch_Id"><td><a href="javascript:desc();">Vampiric Touch</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Versatile_Weapon_Id"><td><a href="javascript:desc();">Versatile Weapon</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+	        <tr id="Water_Breathing_Id"><td><a href="javascript:desc();">Water Breathing</a></td><td><input id="memId" type="button" value="M" onclick="memorize()" /><input id="demId" type="button" value="D" onclick="dememorize()" /><input id="cstId" type="button" value="C" onclick="castSpell()" disabled="disabled"/><input id="rclId" type="button" value="R" onclick="recall()" disabled="disabled"/><span id="memNumId">0</span>/<span id="remNumId">0</span></td></tr>
+        </table></div>
+   
+    </div>
+</td></tr></table>
+
+<div id="descriptionSection" style="display:none">
+<iframe src="Desc.html"></iframe>
+</div>
+</body>
+</html>
+
+
+
+<script type="text/javascript">
+    window.onload = initialize();
+</script>
