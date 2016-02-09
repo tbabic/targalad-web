@@ -20,7 +20,6 @@ function level() {
 
             document.getElementById('mainSection').style.display = 'block';
             document.getElementById('spellsSection').style.display = 'none';
-            document.getElementById('memorizedSection').style.display = 'none';
             document.getElementById('descriptionSection').style.display = 'none';
             calculate();
         }
