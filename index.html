@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" type="text/css" href="site.css"/>
 	<link rel="stylesheet" type="text/css" href="bootstrap.css"/>
     <title></title>
     <!-- Main scripts-->
@@ -9,22 +8,26 @@
 <script src="index.js"></script>
 </head>
 <body>
-
+<section class="page-content container">
+<section class="page-content">
 <input id="showAllSpells" type="checkbox" style="display:none"/>
 
-<div class="menu">
-<input id="mainBtnId" type="button" value="MAIN" onclick="mainClick();" />
-<input id="spellsBtnId" type="button" value="SPELLBOOK" onclick="spellsClick();"/>
-<input id="memBtnId" type="button" value="MEMORIZED" onclick="memorizedClick();"/>
+<header class="page-header">
+<div class="container">
+<h1 class="col-sm-offset-3">
+<input id="mainBtnId" class="btn btn-default" type="button" value="MAIN" onclick="mainClick();" />
+<input id="spellsBtnId" class="btn btn-default" type="button" value="SPELLBOOK" onclick="spellsClick();"/>
+<input id="memBtnId" class="btn btn-default" type="button" value="MEMORIZED" onclick="memorizedClick();"/>
+</h1>
 </div>
+</header>
+<div class="page-content-container container">  
+<div id="mainSection">
 
-<div class="belowMenu"/>
-<table id="mainSection">
-<tr><td>
-    <div id="contentBox" style="margin:0px auto; width:auto">
-
+    <div id="contentBox" class="row">
+	
  <!-- columns divs, float left, no margin so there is no space between column, width=1/3 -->
-        <div id="column1" style="float:left; margin:5px; width:auto;">
+        <div id="column1" class="col-sm-offset-3 col-sm-2">
             Abilities
             <table>
                 <tr><td>Str: </td>  <td id="strId">11</td></tr>
@@ -36,7 +39,7 @@
 
             </table>
         </div>
-        <div id="column2" style="float:left; margin:5px;width:auto;">
+        <div id="column2" class="col-sm-2">
             Spells
             <table>
             <tr><td> <input id="shieldId" type="checkbox" name="spell" value="Shield" onclick="calculate();"/>Shield </td></tr>
@@ -45,7 +48,7 @@
             <tr><td> <input id="gmwId" type="checkbox" name="spell" value="Gmw" onclick="calculate();"/>GMW </td></tr>
             </table>
         </div>
-        <div id="column3" style="float:left; margin:5px;width:auto">
+        <div id="column3" class="col-sm-2">
             Features
             <table>
             <tr><td> <input id="spellCmbtId" type="checkbox" name="feature" value="SpellCombat" onclick="calculate();"/>Spell combat </td></tr>
@@ -56,10 +59,9 @@
             </table>
         </div>
     </div>
-</td></tr>
-<tr><td>
-    <div id="contentBox2" style="margin:0px auto; width:auto">
-        <div id="Div1" style="float:left; margin:5px; width:auto;">
+	<br>
+    <div id="contentBox2" class="row">
+        <div id="Div1" class="col-sm-offset-3 col-sm-2">
             Armor class
             <table>
                 <tr><td>Normal:</td> <td id="acNormalId"> </td></tr>
@@ -67,7 +69,8 @@
                 <tr><td>Touch:</td> <td id="acTouchId"> </td></tr>
             </table>
         </div>
-        <div id="Div2" style="float:left; margin:5px; width:auto;">
+		
+        <div id="Div2" class="col-sm-2">
             Offense
             <table>
                 <tr><td>ToHit1:</td> <td id="tohit1Id"> </td> <td>x</td> <td id="attacks1Id"></td> </tr>
@@ -77,8 +80,8 @@
             </table>
         </div>
     </div>
-</td></tr>
-</table>
+
+</div>
 
 <table id="spellsSection"><tr><td>
     <input type="button" value="Clear all" onclick="clearAll()" style="float:left"/>
@@ -213,6 +216,10 @@
 <div id="descriptionSection" style="display:none">
 <iframe src="desc.html"></iframe>
 </div>
+
+<div class="page-content-container container">  
+</section>
+</section>
 </body>
 </html>
 
