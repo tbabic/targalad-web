@@ -87,7 +87,7 @@
             <table>
                 <tr><td>ToHit1:</td> <td id="tohit1Id"> </td> <td>x</td> <td id="attacks1Id"></td> </tr>
                 <tr><td>ToHit2:</td> <td id="tohit2Id"> </td> <td>x</td> <td id="attacks2Id"></td> </tr>
-                <tr><td>Damage:</td> <td id="die">d6</td> <td>+</td><td id="dmgId"> </td></tr>
+                <tr><td>Damage:</td> <td id="die">d8</td> <td>+</td><td id="dmgId"> </td></tr>
 
             </table>
         </div>
@@ -107,7 +107,7 @@
         <div id="Div5" class="col-xs-6">
             Weapon
             <table>
-                <tr><td>Damage:</td> <td> <input type="text" class="form-control" value="d8" id="wpnDmgId"/></td> </tr>
+                <tr><td>Damage:</td> <td> <input type="text" class="form-control" value="d8" id="wpnDmgId" onchange="calculate()"/></td> </tr>
                 <tr><td>Magic:</td>  <td> <input type="number" class="form-control" value="0" id="wpnMagicId" onchange="calculate()"/></td> </tr>
                 <tr><td>Threat:</td> <td> <input type="number" class="form-control" value="19" id="wpnThreatId" onchange="calculate()"/> </td></tr>
 

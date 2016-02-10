@@ -164,6 +164,9 @@ function calculate() {
 	
 	var ref=dex + refSave(level());
 	document.getElementById('svRefId').textContent = ref;
+	
+	var die = document.getElementById('wpnDmgId').value;
+	document.getElementById('die').textContent = die;
 
 
 }
