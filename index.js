@@ -85,7 +85,7 @@ function calculate() {
 	var arcStr = arcaneStrike();
 	var accStr = accurateStrike();
 	var spellCmb = spellCombat();
-	var focus = 1;
+	var focus = 0;
 	var alphlang = weaponBonus();
 
 	var fightDef = document.getElementById('fightDefId').checked;
