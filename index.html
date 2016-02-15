@@ -2,61 +2,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<link rel="stylesheet" type="text/css" href="bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="site.css"/>
     <title></title>
     <!-- Main scripts-->
     
-<script src="index.js"></script>
+
 </head>
 <body>
-<section>
-<section class="page-content">
-<input id="showAllSpells" type="checkbox" style="display:none"/>
+<div class="container">
 
 <header>
+<div class="row">
 <h1>
 <input id="mainBtnId" class="btn btn-default" type="button" value="MAIN" onclick="mainClick();" />
-<input id="spellsBtnId" class="btn btn-default" type="button" value="SPELLBOOK" onclick="spellsClick();"/>
-<input id="memBtnId" class="btn btn-default" type="button" value="MEMORIZED" onclick="memorizedClick();"/>
+<input id="spellsBtnId" class="btn btn-primary" type="button" value="SPELLBOOK" onclick="spellsClick();"/>
+<input id="memBtnId" class="btn btn-primary" type="button" value="MEMORIZED" onclick="memorizedClick();"/>
 </h1>
 </div>
 </header>
-<div class="page-content-container">  
+<div >  
 <div id="mainSection">
-
-    <div id="contentBox" class="row">
 	
- <!-- columns divs, float left, no margin so there is no space between column, width=1/3 -->
-        <div id="column1" class="col-xs-3">
-            Abilities
-            <table>
-                <tr><td>Str: </td>  <td id="strId">11</td></tr>
-                <tr><td>Dex: </td>  <td id="dexId">20</td></tr>
-                <tr><td>Con: </td>  <td id="conId">13</td></tr>
-                <tr><td>Int: </td>  <td id="intId">18</td></tr>
-                <tr><td>Wis: </td>  <td id="wisId">12</td></tr>
-                <tr><td>Cha: </td>  <td id="chaId">12</td></tr>
-
-            </table>
+	<div class="row attributes">
+		<span class="attribute col-xs-2">Str: <span id="strId">11</span></span>
+		<span class="attribute col-xs-2">Dex: <span id="dexId">20</span></span>
+		<span class="attribute col-xs-2">Con: <span id="conId">13</span></span>
+		<span class="attribute col-xs-2">Int: <span id="intId">18</span></span>
+		<span class="attribute col-xs-2">Wis: <span id="wisId">12</span></span>
+		<span class="attribute col-xs-2">Cha: <span id="chaId">12</span></span>
+	</div>
+	
+    <div class="row abilities">
+		<div class="btn-group-vertical col-xs-4" data-toggle="buttons">
+			<label class="btn btn-primary" id="shieldId"><input type="checkbox"/>Shield</label>
+			<label class="btn btn-primary" id="catId"><input type="checkbox"/>Cat</label>
+			<label class="btn btn-primary" id="hasteId"><input type="checkbox"/>Haste</label>
+			<label class="btn btn-primary" id="gmwId"><input type="checkbox"/>GMW</label>
+		</div>
+        
+        <div class="btn-group-vertical col-xs-4" data-toggle="buttons">
+			<label class="btn btn-primary" id="spellCmbtId"> <input type="checkbox"/>Spell combat </label>
+			<label class="btn btn-primary" id="accStrId"> <input type="checkbox"/>Accurate strike </label>           
+			<label class="btn btn-primary" id="fightDefId"> <input type="checkbox"/>Fighting def</label>
+			<label class="btn btn-primary" id="totalDefId"> <input type="checkbox"/>Total defense </label>
         </div>
-        <div id="column2" class="col-xs-4">
-            Spells
-            <table>
-            <tr><td> <input id="shieldId" type="checkbox" name="spell" value="Shield" onclick="calculate();"/>Shield </td></tr>
-            <tr><td> <input id="catId" type="checkbox" name="spell" value="Cat" onclick="catsGrace();"/>Cat's grace </td></tr>
-            <tr><td> <input id="hasteId" type="checkbox" name="spell" value="Haste" onclick="calculate();"/>Haste </td></tr>
-            <tr><td> <input id="gmwId" type="checkbox" name="spell" value="Gmw" onclick="calculate();"/>GMW </td></tr>
-            </table>
-        </div>
-        <div id="column3" class="col-xs-5">
-            Features
-            <table>
-			<tr><td> <input id="finesseId" type="checkbox" name="feature" value="Finesse" onclick="calculate();"/>Finesse</td></tr>
-            <tr><td> <input id="spellCmbtId" type="checkbox" name="feature" value="SpellCombat" onclick="calculate();"/>Spell combat </td></tr>
-            <tr><td> <input id="accStrId" type="checkbox" name="feature" value="AccurateStrike" onclick="calculate();"/>Accurate strike </td></tr>
-            <tr><td> <input id="arcStrId" type="checkbox" name="feature" value="ArcaneStrike" onclick="calculate();"/>Arcane strike </td></tr>
-            <tr><td> <input id="fightDefId" type="checkbox" name="feature" value="ArcaneStrike" onclick="calculate();"/>Fighting def</td></tr>
-            <tr><td> <input id="totalDefId" type="checkbox" name="feature" value="ArcaneStrike" onclick="calculate();"/>Total defense </td></tr>
-            </table>
+		
+		<div class="btn-group-vertical col-xs-4" data-toggle="buttons">
+			<label class="btn btn-primary" id="finesseId"> <input type="checkbox" />Finesse</label>
+			<label class="btn btn-primary" id="danceId"> <input type="checkbox" />Dance</label>
+			<label class="btn btn-primary" id="arcStrId"> <input type="checkbox" o/>Arcane strike </label>
         </div>
     </div>
 	<br>
@@ -271,12 +265,14 @@
 <iframe src="desc.html"></iframe>
 </div>
 
-<div class="page-content-container container">  
-</section>
-</section>
+</div>
+</div>
 </body>
 </html>
 
+<script src="jquery-2.2.0.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="index.js"></script>
 
 
 <script type="text/javascript">

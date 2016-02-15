@@ -1,3 +1,4 @@
+
 function level() {
 	return 2;
 }
@@ -19,16 +20,7 @@ function bab(lvl) {
 }
 
 function initialize() {
-	document.getElementById('catId').checked = false;
-	document.getElementById('shieldId').checked = false;
-	document.getElementById('gmwId').checked = false;
-	document.getElementById('hasteId').checked = false;
-
-	document.getElementById('spellCmbtId').checked = false;
-	document.getElementById('arcStrId').checked = false;
-	document.getElementById('accStrId').checked = false;
-	document.getElementById('fightDefId').checked = false;
-	document.getElementById('totalDefId').checked = false;
+	
 
 	document.getElementById('mainSection').style.display = 'block';
 	document.getElementById('spellsSection').style.display = 'none';
@@ -193,7 +185,7 @@ function armorBonus() {
 function catsGrace() {
 	
 	var dex = +document.getElementById('dexId').textContent;
-	var cat = document.getElementById('catId').checked;
+	var cat = $('#catId').hasClass('active');
 	if(cat == true)
 		document.getElementById('dexId').textContent = (+dex + +4);
 	else
@@ -203,7 +195,7 @@ function catsGrace() {
 
 
 function shieldBonus() {
-	var chk = document.getElementById('shieldId').checked;
+	var chk = $('#shieldId').hasClass('active');
 	var bonus = 0;
 	if (chk == true)
 		bonus = 4;
@@ -211,7 +203,7 @@ function shieldBonus() {
 }
 
 function hasteBonus() {
-	var chk = document.getElementById('hasteId').checked;
+	var chk = $('#hasteId').hasClass('active');
 	var bonus = 0;
 	if (chk == true)
 		bonus = 1;
@@ -219,7 +211,7 @@ function hasteBonus() {
 }
 
 function accurateStrike() {
-	var chk = document.getElementById('accStrId').checked;
+	var chk = $('#accStrId').hasClass('active');
 	var bonus = 0;
 	if (chk == true) {
 		var int = document.getElementById('intId').textContent;
@@ -231,7 +223,7 @@ function accurateStrike() {
 }
 
 function arcaneStrike() {
-	var chk = document.getElementById('arcStrId').checked;
+	var chk = $('#arcStrId').hasClass('active');
 	var bonus = 0;
 	if (chk == true) {
 		var lvl = level();
@@ -249,7 +241,7 @@ function spellDance() {
 }
 
 function weaponBonus() {
-	var chk = document.getElementById('gmwId').checked;
+	var chk = $('#gmwId').hasClass('active');
 	var bonus = document.getElementById('wpnMagicId').value;
 	if (chk == true) {
 		var gmw = level() / 4;
@@ -262,7 +254,7 @@ function weaponBonus() {
 }
 
 function spellCombat(){
-	var chk = document.getElementById('spellCmbtId').checked;
+	var chk = $('#spellCmbtId').hasClass('active');
 	var bonus = 0;
 	if (chk == true)
 		bonus = -2;
@@ -684,3 +676,12 @@ function clearAll() {
 	}
 			
 }
+
+$(".btn-primary").on("change", function(event) {
+	calculate();
+	
+});
+
+$("#catId").on("change", function(event) {
+	catsGrace();	
+});
