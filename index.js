@@ -22,29 +22,29 @@ function bab(lvl) {
 function initialize() {
 	
 
-	document.getElementById('mainSection').style.display = 'block';
-	document.getElementById('spellsSection').style.display = 'none';
-	document.getElementById('descriptionSection').style.display = 'none';
+	$('#mainSection').show();
+	$('#spellsSection').hide();
+	$('#descriptionSection').hide();
 	calculate();
 }
 
 function mainClick() {
-	document.getElementById('mainSection').style.display = 'block';
-	document.getElementById('spellsSection').style.display = 'none';
-	document.getElementById('currSpellLvlId').textContent = 0;
+	$('#mainSection').show();
+	$('#spellsSection').hide();
+	$('#currSpellLvlId').text(0);
 	
 }
 
 function spellsClick() {
-	document.getElementById('mainSection').style.display = 'none';
-	document.getElementById('spellsSection').style.display = 'block';
+	$('#mainSection').hide();
+	$('#spellsSection').show();
 	showSpellLevelSection();
 	showSpellBook();
 }
 
 function memorizedClick() {
-	document.getElementById('mainSection').style.display = 'none';
-	document.getElementById('spellsSection').style.display = 'block';
+	$('#mainSection').hide();
+	$('#spellsSection').show();
 	showSpellLevelSection();
 	showMemorized();
 }
@@ -102,13 +102,13 @@ function calculate() {
 		toHitFightDef = -4;
 	}
 	var acNormal = +base + +armor + +dex + +enhancement + +luckBracers + +dance + +amulet + +shield + +dodge;
-	document.getElementById('acNormalId').textContent = acNormal;
+	$('#acNormalId').text(acNormal);
 
 	var acFlat = +base + +armor + +enhancement + +luckBracers + +dance + +amulet + +shield;
-	document.getElementById('acFlatId').textContent = acFlat;
+	$('#acFlatId').text(acFlat);
 
 	var acTouch = +base +  +dex +  +luckBracers + +dance + +dodge;
-	document.getElementById('acTouchId').textContent = acTouch;
+	$('#acTouchId').text(acTouch);
 
 
 
@@ -142,53 +142,53 @@ function calculate() {
 		}
 	}
 
-	document.getElementById('attacksId').textContent = attacks;
-	document.getElementById('dmgId').textContent = dmg;
+	$('#attacksId').text(attacks);
+	$('#dmgId').text(dmg);
 	
 	var con = getAttribute('conId');
 	var fort=con + fortSave(level());
-	document.getElementById('svFortId').textContent = fort;
+	$('#svFortId').text(fort);
 	
 	var wis = getAttribute('wisId');
 	var will=wis + willSave(level());
-	document.getElementById('svWillId').textContent = will;
+	$('#svWillId').text(will);
 	
 	var ref=dex + refSave(level());
-	document.getElementById('svRefId').textContent = ref;
+	$('#svRefId').text(ref);
 	
-	var die = document.getElementById('wpnDmgId').value;
-	document.getElementById('die').textContent = die;
+	var die = $('#wpnDmgId').value;
+	$('#die').text(die);
 
 
 }
 
 function getAttribute(id){
-	var atr = document.getElementById(id).textContent;
+	var atr = $('#'+id).text();
 	atr = +atr - +10;
 	atr = Math.floor(atr / 2);
 	return atr;
 }
 
 function armorMaxDex() {
-	return document.getElementById('armorDexId').value;
+	return $('#armorDexId').value;
 }
 
 function armorMagic() {
-	return document.getElementById('armorMagicId').value;
+	return $('#armorMagicId').value;
 }
 
 function armorBonus() {
-	return document.getElementById('armorAcId').value;
+	return $('#armorAcId').value;
 }
 
 function catsGrace() {
 	
-	var dex = +document.getElementById('dexId').textContent;
+	var dex = +$('#dexId').text();
 	var cat = $('#catId').hasClass('active');
 	if(cat == true)
-		document.getElementById('dexId').textContent = (+dex + +4);
+		$('#dexId')(+dex + +4);
 	else
-		document.getElementById('dexId').textContent = (+dex - +4);
+		$('#dexId')(+dex - +4);
 	calculate();
 }
 
@@ -213,7 +213,7 @@ function accurateStrike() {
 	var chk = $('#accStrId').hasClass('active');
 	var bonus = 0;
 	if (chk == true) {
-		var int = document.getElementById('intId').textContent;
+		var int = $('#intId').text();
 		int = +int - +10;
 		int = Math.floor(int / 2);
 		bonus = int;
@@ -241,7 +241,7 @@ function spellDance() {
 
 function weaponBonus() {
 	var chk = $('#gmwId').hasClass('active');
-	var bonus = document.getElementById('wpnMagicId').value;
+	var bonus = $('#wpnMagicId').value;
 	if (chk == true) {
 		var gmw = level() / 4;
 		if (gmw > bonus) {
@@ -265,41 +265,32 @@ function attackBonus() {
 
 
 function showMemorized() {
-	for (var spellLevel = 0; spellLevel <= 6; spellLevel++) {
-		var maxNumber = document.getElementById('lvl' + spellLevel + 'AllMax');
-		var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
-		var spellTable = document.getElementById('spellTable_' + spellLevel + '_id').children[0];
-		for (var i = 0; i < spellTable.children.length; i++) {
-			var buttons = spellTable.children[i].children[1];
-			findChild(buttons, 'memId').style.display = 'none';
-			findChild(buttons, 'demId').style.display = 'none';
-			findChild(buttons, 'cstId').style.display = '';
-			findChild(buttons, 'rclId').style.display = '';
-			if (findChild(buttons, 'memNumId').textContent > 0) {
-				spellTable.children[i].style.display = '';
-			}
-			else {
-				spellTable.children[i].style.display = 'none';
-			}
-		}
-	}
 	
+	$('.memorizeBtn').hide();
+	$('.dememorizeBtn').hide();
+	$('.castBtn').show();
+	$('.recallBtn').show();
+	
+	var spellsList = $('.spellRow');
+	$.each(spellsList, function(index, item) {
+		var spell = $(item);
+		var memorized = spell.find('.memNumId');
+		if (memorized.text() > 0) {
+			spell.show();
+		}
+		else {
+			spell.hide();
+		}
+	});
 }
 
 function showSpellBook() {
-	for (var spellLevel = 0; spellLevel <= 6; spellLevel++) {
-		var maxNumber = document.getElementById('lvl' + spellLevel + 'AllMax');
-		var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
-		var spellTable = document.getElementById('spellTable_' + spellLevel + '_id').children[0];
-		for (var i = 0; i < spellTable.children.length; i++) {
-			spellTable.children[i].style.display = '';
-			var buttons = spellTable.children[i].children[1];
-			findChild(buttons, 'memId').style.display = '';
-			findChild(buttons, 'demId').style.display = '';
-			findChild(buttons, 'cstId').style.display = 'none';
-			findChild(buttons, 'rclId').style.display = 'none';
-		}
-	}
+
+	$('.spellRow').show();
+	$('.memorizeBtn').show();
+	$('.dememorizeBtn').show();
+	$('.castBtn').hide();
+	$('.recallBtn').hide();
 }
 
 
@@ -307,22 +298,22 @@ function showSpellBook() {
 function showSpellLevelSection(spellsLevel) {
 
 	if (spellsLevel == undefined) {
-		spellsLevel = document.getElementById('currSpellLvlId').textContent;
+		spellsLevel = $('#currSpellLvlId').text();
 	}           
-	document.getElementById('currSpellLvlId').textContent = spellsLevel;
+	$('#currSpellLvlId').text(spellsLevel);
 	try{
 		for (var i = 0; i <=6; i++) {
 			var id = 'all' + i + 'SpellsId';
 			
 			if (i == spellsLevel) {
-				document.getElementById(id).style.display = 'block';
+				$('#'+id).show();
 				var maxNum = maxNumSpells(spellsLevel);
 				var idMax='lvl'+i+'AllMax';
 				var idCurr = 'lvl' + i + 'AllCurr';
-				document.getElementById(idMax).textContent = maxNum;
+				$('#'+idMax).text(maxNum);
 			}
 			else {
-				document.getElementById(id).style.display = 'none';
+				$('#'+id).hide()
 			}
 		}
 	}
@@ -357,7 +348,7 @@ function maxNumSpells(spellsLevel) {
 	if(spellsLevel == 6) {
 		baseNum = baseSpells6Level()
 	}
-	var atr = document.getElementById('intId').textContent;
+	var atr = $('#intId').text();
 	atr = +atr - +10;
 	atr = Math.floor(atr / 2);
 	var bonusNum = 0;
@@ -512,132 +503,57 @@ function desc() {
 	
 }
 
-
-function findChild(elem, id) {
-	var retChild;
-	for (var i = 0; i < elem.children.length; i++) {
-		var child = elem.children[i];
-		if (child.attributes.id.value == id) {
-			return child;
-		}
-	}
-}
-
-function spellsNumber(elem, actionId, value) {
-	var parent = elem;
-	var child = findChild(parent, actionId);
-	if (child.attributes.id.value == actionId) {
-		var newValue = +child.textContent + +value;
-		if(newValue < 0) {
-			newValue = 0;
-		}
-		child.textContent = newValue;
-	}
-}
 		
 function reEvaluateAll(spellLevel, reset) {
-
+	
 	if (spellLevel == undefined) {
-		spellLevel = document.getElementById('currSpellLvlId').textContent;
+		spellLevel = $('#currSpellLvlId').text();
 	}
-	var maxNumber = document.getElementById('lvl' + spellLevel + 'AllMax');
-	var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
-	var spellTable = document.getElementById('spellTable_' + spellLevel + '_id').children[0];
-	for (var i = 0; i < spellTable.children.length; i++) {
-		var buttons = spellTable.children[i].children[1];
-		memorizeBtn = findChild(buttons, 'memId');
-		dememorizeBtn = findChild(buttons, 'demId');
-		castBtn = findChild(buttons, 'cstId');
-		recallBtn = findChild(buttons, 'rclId');
-		memorizedNum = findChild(buttons, 'memNumId');
-		remainingNum = findChild(buttons, 'remNumId');
-		if(reset == true)
-		{
-			memorizedNum.textContent = 0;
-			remainingNum.textContent = 0;
-		}
-
-		if (currNumber.textContent >= maxNumber.textContent) {
-			memorizeBtn.disabled = true;
-		}
-		else {
-			memorizeBtn.disabled = false;
-		}
-		if (memorizedNum.textContent <= 0 || remainingNum.textContent <= 0) {
-			dememorizeBtn.disabled = true;
-			castBtn.disabled = true;
-		}
-		else {
-			dememorizeBtn.disabled = false;
-			castBtn.disabled = false;
-		}
-		if (remainingNum.textContent >= memorizedNum.textContent) {
-			recallBtn.disabled = true;
-		}
-		else {
-			recallBtn.disabled = false;
-		}
+	var spellTable = $('#spellTable_' + spellLevel + '_id');
+	if(reset == true) {
+		spellTable.find('.memNumId').text(0);
+		spellTable.find('.remNumId').text(0);
 	}
 	
-}
-
-function memorize(spellId, spellLevel) {
-	var parent;
-	if (spellId == undefined) {
-		parent = this.document.activeElement.parentNode;
+	var maxNumber = $('#lvl' + spellLevel + 'AllMax').text();
+	var currNumber = $('#lvl' + spellLevel + 'AllCurr').text();
+	if(currNumber >= maxNumber) {
+		spellTable.find('.memorizedBtn').prop('disabled', true);
 	}
 	else {
-		parent = document.getElementById(spellId).children[1];
-	}
-
-	if(spellLevel == undefined) {
-		spellLevel = document.getElementById('currSpellLvlId').textContent;
+		spellTable.find('.memorizedBtn').prop('disabled', false);
 	}
 	
-	spellsNumber(parent, 'memNumId', +1);
-	spellsNumber(parent, 'remNumId', +1);
+	var spells = spellTable.find('.spellRow');
+	$.each(spells, function(index, item) {
+		var spell = $(item);
+		var memorizeBtn = spell.find('.memorizedBtn');
+		var dememorizeBtn = spell.find('.dememorizedBtn');
+		var castBtn = spell.find('.castBtn');
+		var recallBtn = spell.find('.recallBtn');
+		var memorizedCount = spell.find('.memNumId').text();
+		var remainingCount = spell.find('.remNumId').text();
 
+		if (memorizedCount <= 0 || remainingCount <= 0) {
+			dememorizeBtn.prop('disabled', true);
+			castBtn.prop('disabled', true);
+		}
+		else {
+			dememorizeBtn.prop('disabled', false);
+			castBtn.prop('disabled', false);
+		}
+		if (remainingCount >= memorizedCount) {
+			recallBtn.prop('disabled', true);
+		}
+		else {
+			recallBtn.prop('disabled', false);
+		}
+		
+	});
 	
-	var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
-	currNumber.textContent = +currNumber.textContent + +1;
-	reEvaluateAll(spellLevel);
-				
 	
 }
 
-function dememorize(spellId, spellLevel) {
-	var parent;
-	if (spellId == undefined) {
-		parent = this.document.activeElement.parentNode;
-	}
-	else {
-		parent = document.getElementById(spellId).children[1];
-	}
-
-	if(spellLevel == undefined) {
-		spellLevel = document.getElementById('currSpellLvlId').textContent;
-	}
-	spellsNumber(parent, 'memNumId', -1);
-	spellsNumber(parent, 'remNumId', -1);
-
-	var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
-	currNumber.textContent = +currNumber.textContent + -1;
-	reEvaluateAll(spellLevel);
-}
-
-
-function castSpell() {
-	
-	var parent = this.document.activeElement.parentNode;
-	spellsNumber(parent, 'remNumId', -1);
-	reEvaluateAll();
-}
-
-function recall() {
-	var parent = this.document.activeElement.parentNode;
-	spellsNumber(parent, 'remNumId', +1);
-	reEvaluateAll();
-}
 
 function memorizeDefault() {
 	
@@ -669,8 +585,8 @@ function memorizeDefault() {
 
 function clearAll() {
 	for (var spellLevel = 0; spellLevel <= 6; spellLevel++) {
-		var currNumber = document.getElementById('lvl' + spellLevel + 'AllCurr');
-		currNumber.textContent = 0;
+		var currNumber = $('#lvl' + spellLevel + 'AllCurr');
+		currNumber0;
 		reEvaluateAll(spellLevel, true);
 	}
 			
@@ -684,3 +600,54 @@ $(".btn-primary").on("change", function(event) {
 $("#catId").on("change", function(event) {
 	catsGrace();	
 });
+
+function memorize(spellId, spellLevel) {	
+	var parent = $('#'+spellId);
+	var spellLevel = $('#currSpellLvlId').text();
+	spellsNumber(parent, '.memNumId', +1);
+	spellsNumber(parent, '.remNumId', +1);	
+	var currNumber = $('#lvl' + spellLevel + 'AllCurr');
+	currNumber.text(+currNumber.text() + +1);
+	reEvaluateAll(spellLevel);
+}
+
+$(".memorizeBtn").on("click", function(event) {
+	var parentId = event.target.parentNode.parentNode.id;
+	var spellLevel = $('#currSpellLvlId').text();
+	memorize(parentId, spellLevel);
+});
+
+$(".dememorizeBtn").on("click", function(event) {
+	var parent = event.target.parentNode.parentNode;
+	var spellLevel = $('#currSpellLvlId').text();
+	spellsNumber(parent, '.memNumId', -1);
+	spellsNumber(parent, '.remNumId', -1);
+	var currNumber = $('#lvl' + spellLevel + 'AllCurr');
+	currNumber.text(+currNumber.text() - +1);
+	reEvaluateAll(spellLevel);
+});
+
+$(".castBtn").on("click", function(event) {
+	var parent = event.target.parentNode.parentNode;
+	spellsNumber(parent, '.remNumId', -1);
+	reEvaluateAll();
+});
+
+$(".recallBtn").on("click", function(event) {
+
+	var parent = event.target.parentNode.parentNode;
+	spellsNumber(parent, '.remNumId', +1);
+	reEvaluateAll();
+});
+
+function spellsNumber(elem, actionId, value) {
+	var parent = $(elem);
+	var child = parent.find(actionId);
+
+	var newValue = +child.text() + +value;
+	if(newValue < 0) {
+		newValue = 0;
+	}
+	child.text(newValue);
+
+}
