@@ -22,12 +22,12 @@
 <div id="mainSection">
 	
 	<div class="row attributes">
-		<span class="attribute col-xs-2">Str: <input type="number" class="form-control attrInput" value="11"/> </span>
-		<span class="attribute col-xs-2">Dex: <input type="number" class="form-control attrInput" value="20"/></span>
-		<span class="attribute col-xs-2">Con: <input type="number" class="form-control attrInput" value="13"/></span>
-		<span class="attribute col-xs-2">Int: <input type="number" class="form-control attrInput" value="18"/></span>
-		<span class="attribute col-xs-2">Wis: <input type="number" class="form-control attrInput" value="12"/></span>
-		<span class="attribute col-xs-2">Cha: <input type="number" class="form-control attrInput" value="12"/></span>
+		<span class="attribute col-xs-2">Str: <input id="strId" type="number" class="form-control attrInput" value="11"/> </span>
+		<span class="attribute col-xs-2">Dex: <input id="dexId" type="number" class="form-control attrInput" value="20"/></span>
+		<span class="attribute col-xs-2">Con: <input id="conId" type="number" class="form-control attrInput" value="13"/></span>
+		<span class="attribute col-xs-2">Int: <input id="intId" type="number" class="form-control attrInput" value="18"/></span>
+		<span class="attribute col-xs-2">Wis: <input id="wisId" type="number" class="form-control attrInput" value="12"/></span>
+		<span class="attribute col-xs-2">Cha: <input id="chaId" type="number" class="form-control attrInput" value="12"/></span>
 	</div>
 	
     <div class="row abilities">
@@ -85,7 +85,7 @@
     </div>
 	<br>
 	<div id="contentBox3" class="row">
-        <div id="Div4" class="col-xs-6">
+        <div id="Div4" class="armor col-xs-6">
             Armor
             <table>
                 <tr><td>AC:</td> <td> <input type="number" class="form-control" id="armorAcId" value="0" onchange="calculate()"/> </td></tr>
@@ -95,7 +95,7 @@
         </div>
 		
 		
-        <div id="Div5" class="col-xs-6">
+        <div id="Div5" class="weapon col-xs-6">
             Weapon
             <table>
                 <tr><td>Damage:</td> <td> <input type="text" class="form-control" value="d8" id="wpnDmgId" onchange="calculate()"/></td> </tr>

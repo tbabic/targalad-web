@@ -61,6 +61,7 @@
 	border-style: solid;
 	border-width: 1px 1px 1px 1px;
 	border-color: #337ab7;
+	padding: 1px 1px 1px 1px;
 }
 
 .btn-group-vertical .btn {
@@ -71,9 +72,14 @@
 	text-align: center;
 }
 
-.attributes .attrInput {
+.attributes .form-control {
+
+	padding: 0px 0px 0px 0px;
+	height: 20px;
+	text-align: center;
 	
 }
+
 
 @media screen and (max-width: 480px) {
 .abilities .btn{

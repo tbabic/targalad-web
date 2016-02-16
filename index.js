@@ -172,7 +172,7 @@ function calculate() {
 }
 
 function getAttribute(id){
-	var atr = $('#'+id).text();
+	var atr = $('#'+id).val();
 	atr = +atr - +10;
 	atr = Math.floor(atr / 2);
 	return atr;
@@ -192,12 +192,12 @@ function armorBonus() {
 
 function catsGrace() {
 	
-	var dex = +$('#dexId').text();
+	var dex = +$('#dexId').val();
 	var cat = $('#catId').hasClass('active');
 	if(cat == true)
-		$('#dexId').text(+dex + +4);
+		$('#dexId').val(+dex + +4);
 	else
-		$('#dexId').text(+dex - +4);
+		$('#dexId').val(+dex - +4);
 	calculate();
 }
 
