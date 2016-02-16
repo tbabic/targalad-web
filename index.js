@@ -509,7 +509,7 @@ function desc() {
 	var spellId = this.document.activeElement.parentNode.parentNode.id;
 	var descriptionIframe = $('#descriptionIframe');
 	var descId = spellId + '_desc';
-	var descriptionElement = descriptionIframe.contents().find('#'+descId);
+	var descriptionElement = descriptionIframe.contents().find('#'+descId).clone();
 	descriptionSpellId = spellId;
 	
 	
