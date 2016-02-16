@@ -1,4 +1,4 @@
-
+var descriptionSpellId = '';
 function level() {
 	return 2;
 }
@@ -25,12 +25,14 @@ function initialize() {
 	$('#mainSection').show();
 	$('#spellsSection').hide();
 	$('#descriptionSection').hide();
+	$('#spellDescriptionSection').hide();
 	calculate();
 }
 
 function mainClick() {
 	$('#mainSection').show();
 	$('#spellsSection').hide();
+	$('#spellDescriptionSection').hide();
 	$('#currSpellLvlId').text(0);
 	
 }
@@ -38,6 +40,7 @@ function mainClick() {
 function spellsClick() {
 	$('#mainSection').hide();
 	$('#spellsSection').show();
+	$('#spellDescriptionSection').hide();
 	showSpellLevelSection();
 	showSpellBook();
 }
@@ -45,6 +48,7 @@ function spellsClick() {
 function memorizedClick() {
 	$('#mainSection').hide();
 	$('#spellsSection').show();
+	$('#spellDescriptionSection').hide();
 	showSpellLevelSection();
 	showMemorized();
 }
@@ -156,7 +160,7 @@ function calculate() {
 	var ref=dex + refSave(level());
 	$('#svRefId').text(ref);
 	
-	var die = $('#wpnDmgId').value;
+	var die = $('#wpnDmgId').val();
 	$('#die').text(die);
 
 
@@ -170,15 +174,15 @@ function getAttribute(id){
 }
 
 function armorMaxDex() {
-	return $('#armorDexId').value;
+	return $('#armorDexId').val();
 }
 
 function armorMagic() {
-	return $('#armorMagicId').value;
+	return $('#armorMagicId').val();
 }
 
 function armorBonus() {
-	return $('#armorAcId').value;
+	return $('#armorAcId').val();
 }
 
 function catsGrace() {
@@ -186,9 +190,9 @@ function catsGrace() {
 	var dex = +$('#dexId').text();
 	var cat = $('#catId').hasClass('active');
 	if(cat == true)
-		$('#dexId')(+dex + +4);
+		$('#dexId').text(+dex + +4);
 	else
-		$('#dexId')(+dex - +4);
+		$('#dexId').text(+dex - +4);
 	calculate();
 }
 
@@ -241,7 +245,7 @@ function spellDance() {
 
 function weaponBonus() {
 	var chk = $('#gmwId').hasClass('active');
-	var bonus = $('#wpnMagicId').value;
+	var bonus = $('#wpnMagicId').val();
 	if (chk == true) {
 		var gmw = level() / 4;
 		if (gmw > bonus) {
@@ -491,16 +495,30 @@ function baseSpells6Level() {
 	return 0;
 }
 function desc() {
-
-	var spellId = this.document.activeElement.parentNode.parentNode.id;
-	var descId = spellId + '_desc';
-	var doc = document.getElementById('descriptionSection').children[0].getSVGDocument();
-	var description = doc.getElementById(descId).textContent;
-	var mem = window.confirm(description);
-	if (mem == true) {
-		memorize(spellId);
+	
+	var spellLevel = $('#currSpellLvlId').text();
+	var maxNumber = $('#lvl' + spellLevel + 'AllMax').text();
+	var currNumber = $('#lvl' + spellLevel + 'AllCurr').text();
+	if(currNumber >= maxNumber) {
+		$('#descMemorizeBtn').prop('disabled', true);
+	}
+	else {
+		$('#descMemorizeBtn').prop('disabled', false);
 	}
 	
+	var spellId = this.document.activeElement.parentNode.parentNode.id;
+	var descriptionIframe = $('#descriptionIframe');
+	var descId = spellId + '_desc';
+	var descriptionElement = descriptionIframe.contents().find('#'+descId);
+	descriptionSpellId = spellId;
+	
+	
+	
+	
+	$('#spellDescription').append(descriptionElement);
+	$('#spellsSection').hide();
+	$('#spellDescriptionSection').show();
+		
 }
 
 		
@@ -601,7 +619,8 @@ $("#catId").on("change", function(event) {
 	catsGrace();	
 });
 
-function memorize(spellId, spellLevel) {	
+function memorize(spellId, spellLevel) {
+	console.log('memorizing spell');
 	var parent = $('#'+spellId);
 	var spellLevel = $('#currSpellLvlId').text();
 	spellsNumber(parent, '.memNumId', +1);
@@ -610,6 +629,19 @@ function memorize(spellId, spellLevel) {
 	currNumber.text(+currNumber.text() + +1);
 	reEvaluateAll(spellLevel);
 }
+
+$("#descMemorizeBtn").on("click", function(event) {
+	var parentId = descriptionSpellId;
+	var spellLevel = $('#currSpellLvlId').text();
+	memorize(parentId, spellLevel);
+	spellsClick();
+	descriptionSpellId = '';
+});
+
+$("#descCloseBtn").on("click", function(event) {
+	spellsClick();
+	descriptionSpellId = '';
+});
 
 $(".memorizeBtn").on("click", function(event) {
 	var parentId = event.target.parentNode.parentNode.id;
