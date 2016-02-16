@@ -21,36 +21,41 @@ function bab(lvl) {
 
 function initialize() {
 	
-
+	calculate();
 	$('#mainSection').show();
 	$('#spellsSection').hide();
 	$('#descriptionSection').hide();
 	$('#spellDescriptionSection').hide();
-	calculate();
+	
 }
 
 function mainClick() {
+	$('#currSpellLvlId').text(0);
 	$('#mainSection').show();
 	$('#spellsSection').hide();
 	$('#spellDescriptionSection').hide();
-	$('#currSpellLvlId').text(0);
+	
 	
 }
 
 function spellsClick() {
+	showSpellLevelSection();
+	showSpellBook();
+
 	$('#mainSection').hide();
 	$('#spellsSection').show();
 	$('#spellDescriptionSection').hide();
-	showSpellLevelSection();
-	showSpellBook();
+	
 }
 
 function memorizedClick() {
+	showSpellLevelSection();
+	showMemorized();
+
 	$('#mainSection').hide();
 	$('#spellsSection').show();
 	$('#spellDescriptionSection').hide();
-	showSpellLevelSection();
-	showMemorized();
+	
 }
 
 
