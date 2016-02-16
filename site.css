@@ -40,9 +40,17 @@
 	border-color: #337ab7;
 }
 
+.btn-group-vertical .btn {
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	text-align: center;
+}
+
 @media screen and (max-width: 480px) {
 .abilities .btn{
-	font-size:70%;
+	font-size:85%;
 	width: 100%
 
 }
@@ -50,7 +58,7 @@
 
 @media screen and (max-width: 400px) {
 .abilities .btn{
-	font-size:50%;
+	font-size:70%;
 }
 }
 
