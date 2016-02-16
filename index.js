@@ -550,8 +550,8 @@ function reEvaluateAll(spellLevel, reset) {
 	var spells = spellTable.find('.spellRow');
 	$.each(spells, function(index, item) {
 		var spell = $(item);
-		var memorizeBtn = spell.find('.memorizedBtn');
-		var dememorizeBtn = spell.find('.dememorizedBtn');
+		var memorizeBtn = spell.find('.memorizeBtn');
+		var dememorizeBtn = spell.find('.dememorizeBtn');
 		var castBtn = spell.find('.castBtn');
 		var recallBtn = spell.find('.recallBtn');
 		var memorizedCount = spell.find('.memNumId').text();
