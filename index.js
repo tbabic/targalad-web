@@ -38,7 +38,6 @@ function mainClick() {
 function spellsClick() {
 	document.getElementById('mainSection').style.display = 'none';
 	document.getElementById('spellsSection').style.display = 'block';
-	document.getElementById('showAllSpells').checked = true;
 	showSpellLevelSection();
 	showSpellBook();
 }
@@ -46,7 +45,6 @@ function spellsClick() {
 function memorizedClick() {
 	document.getElementById('mainSection').style.display = 'none';
 	document.getElementById('spellsSection').style.display = 'block';
-	document.getElementById('showAllSpells').checked = false;
 	showSpellLevelSection();
 	showMemorized();
 }
@@ -80,8 +78,8 @@ function calculate() {
 	var focus = 0;
 	var alphlang = weaponBonus();
 
-	var fightDef = document.getElementById('fightDefId').checked;
-	var totalDef = document.getElementById('totalDefId').checked;
+	var fightDef =$('#fightDefId').hasClass('active');
+	var totalDef = $('#totalDefId').hasClass('active');
 	var acFightDef = 0
 	var toHitFightDef = 0;
 
@@ -116,34 +114,35 @@ function calculate() {
 
 	var str = getAttribute('strId');
 	var atr = str;
-	var finesse = document.getElementById('finesseId').checked
+	var finesse = $('#finesseId').hasClass('active');
 	if (finesse & dex >= atr) {
 		atr = dex;
 	}
-
-	var toHit = +bab() + +atr + +focus + +alphlang + +accStr + +spellCmb + +haste + +toHitFightDef;
-	var toHit2 = +toHit - +5;
-	
-	var attacks1 = 1;
-	var attacks2 = 1;
-	if (document.getElementById('hasteId').checked == true)
-		attacks1 = +attacks1 + +1;
-	if (document.getElementById('spellCmbtId').checked == true)
-		attacks1 = +attacks1 + +1;
-	var dmg = +dex + +alphlang + +arcStr;
-
-	if (totalDef == true) {
-		attacks1 = 0;
-		attacks2 = 0;
-		toHit = "";
-		toHit2 = "";
-		dmg = "";
+	var _bab = bab();
+	var toHit = +_bab + +atr + +focus + +alphlang + +accStr + +spellCmb + +haste + +toHitFightDef;
+	var attacks = [];
+	var dmg = "";
+	if (totalDef != true) { 
+		var i = 0;	
+		if ($('#hasteId').hasClass('active') || $('#spellCmbtId').hasClass('active') ) {
+			attacks.push(toHit);
+			i++;
+		}
+		while (_bab > 0) {
+			attacks.push(toHit);
+			i++;
+			_bab+= -5;
+			toHit+= -5;			
+		}
+		if ($('#danceId').hasClass('active')) {
+			dmg = +dex + +alphlang + +arcStr;
+		}
+		else {
+			dmg = +str + +alphlang + +arcStr;
+		}
 	}
 
-	document.getElementById('tohit1Id').textContent = toHit;
-	document.getElementById('attacks1Id').textContent = attacks1;
-	document.getElementById('tohit2Id').textContent = toHit2;
-	document.getElementById('attacks2Id').textContent = attacks2;         
+	document.getElementById('attacksId').textContent = attacks;
 	document.getElementById('dmgId').textContent = dmg;
 	
 	var con = getAttribute('conId');
