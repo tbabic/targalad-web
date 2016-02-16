@@ -514,7 +514,7 @@ function desc() {
 	
 	
 	
-	
+	$('#spellDescription').empty();
 	$('#spellDescription').append(descriptionElement);
 	$('#spellsSection').hide();
 	$('#spellDescriptionSection').show();
