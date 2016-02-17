@@ -136,7 +136,11 @@ function calculate() {
 	var dmg = "";
 	if (totalDef != true) { 
 		var i = 0;	
-		if ($('#hasteId').hasClass('active') || $('#spellCmbtId').hasClass('active') ) {
+		if ($('#hasteId').hasClass('active')) {
+			attacks.push(toHit);
+			i++;
+		}
+		if ($('#spellCmbtId').hasClass('active') ) {
 			attacks.push(toHit);
 			i++;
 		}
