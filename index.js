@@ -41,7 +41,7 @@ function mainClick() {
 function spellsClick() {
 	showSpellLevelSection();
 	showSpellBook();
-
+	knownSpells();
 	$('#mainSection').hide();
 	$('#spellsSection').show();
 	$('#spellDescriptionSection').hide();
@@ -56,10 +56,6 @@ function memorizedClick() {
 	$('#spellsSection').show();
 	$('#spellDescriptionSection').hide();
 	
-}
-
-function knownSpells() {
-
 }
 
 function calculate() {
@@ -284,10 +280,10 @@ function attackBonus() {
 
 function showMemorized() {
 	
-	$('.memorizeBtn').hide();
-	$('.dememorizeBtn').hide();
-	$('.castBtn').show();
-	$('.recallBtn').show();
+	$('.memorize').hide();
+	$('.dememorize').hide();
+	$('.cast').show();
+	$('.recall').show();
 	
 	var spellsList = $('.spellRow');
 	$.each(spellsList, function(index, item) {
@@ -305,10 +301,10 @@ function showMemorized() {
 function showSpellBook() {
 
 	$('.spellRow').show();
-	$('.memorizeBtn').show();
-	$('.dememorizeBtn').show();
-	$('.castBtn').hide();
-	$('.recallBtn').hide();
+	$('.memorize').show();
+	$('.dememorize').show();
+	$('.cast').hide();
+	$('.recall').hide();
 }
 
 
@@ -587,11 +583,21 @@ function reEvaluateAll(spellLevel, reset) {
 }
 
 function knownSpells() {
+	
 	$('.spellRow').hide();
 	//all cantrips known
 	$('#all0SpellsId').find('.spellRow').show();
 	
 	//level 1 spells known
+	$('#Blade_Lash_Id').show();
+	$('#Blade_Tutors_Spirit_Id').show();
+	$('#Color_Spray_Id').show();
+	$('#Frostbite_Id').show();
+	$('#Shield_Id').show();
+	$('#Shocking_Grasp_Id').show();
+	$('#True_Strike_Id').show();
+	$('#Vanish_Id').show();
+	$('#Windy_Escape_Id').show();
 	
 }
 
