@@ -191,8 +191,6 @@ function calculate() {
 	
 	var die = $('#wpnDmgId').val();
 	$('#die').text(die);
-	
-	
 
 }
 

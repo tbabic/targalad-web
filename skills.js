@@ -5,28 +5,109 @@ function initializeSkills() {
 		var skillHtml = $('#temp_skill_id').clone();
 		skillHtml.find('.skill-name').text(skills[i][0]);
 		skillHtml.attr('id', 'row_'+skills[i][1]);
-		skillHtml.find('.skill-rank').attr('data', skills[i][1]);
-		skillHtml.find('.skill-bonus').attr('data', skills[i][1]);
-		
+		skillHtml.find('.skill-rank').attr('data-ref-skill', skills[i][1]);
+		skillHtml.find('.skill-bonus').attr('data-ref-skill', skills[i][1]);
 		var skillContainer = skillHtml.find('#skill_Id');
 		skillContainer.attr('id', skills[i][1]);
-		skillContainer.attr('id', skills[i][3]);
+		skillContainer.attr('data-ref-attr', skills[i][3]);
 		if (skills[i][2]) {
 			skillContainer.addClass('armor-check');
 		}
 		if (skills[i][4]) {
 			skillContainer.addClass('class-skill');
 		}
+		if (skills[i][0].indexOf('*') > -1){
+			skillContainer.addClass('untrained');
+		}
 		container.append(skillHtml);
 	}
 	
-	/*$('.skill-bonus').on("change", function(event) {
-		var skillId = $(event.target).data();
-		var skill = $('#'+skillId);
+	$('#temp_skill_id').empty();
+	
+	$('.skill-bonus').on("change", function(event) {
+		modifySkill(event.target.dataset.refSkill);
 		
-	}*/
+	});
+	
+	$('.skill-rank').on("change", function(event) {
+		modifySkill(event.target.dataset.refSkill);
+	});
+	
+	initialRanks();
 }
 
+function modifySkill(skillId) {
+	var skill = $('#'+skillId);
+	var rank = $('#row_'+skillId).find('.skill-rank').val();
+	var untrained = skill.hasClass('untrained');
+	if (untrained && rank <= 0) {
+		skill.text(0);
+		skill.addClass('unavailable');
+		return;
+	}
+	
+	var bonus = $('#row_'+skillId).find('.skill-bonus').val();
+	var classSkill = (skill.hasClass('class-skill') && rank > 0)? 3 : 0;
+	var armorCheck = skill.hasClass('armor-check') ? $(acPenaltyId).val() : 0;
+	var attrBonus = getAttribute(skill.data().refAttr);
+	var value = +rank + +bonus + +classSkill + -armorCheck + +attrBonus;
+	
+	skill.text(value);
+	
+}
+
+$('#acPenaltyId').on("change", function(event) {
+	modifyAllSkills();
+});
+
+function initialRanks() {
+	$('#row_Acrobatics_Id').find('.skill-rank').val(1);	
+	$('#row_Craft_Id').find('.skill-rank').val(1);
+	$('#row_Knowledge_arcana_Id').find('.skill-rank').val(1);
+	$('#row_Knowledge_dungeoneering_Id').find('.skill-rank').val(1);
+	$('#row_Knowledge_planes_Id').find('.skill-rank').val(1);
+	$('#row_Perception_Id').find('.skill-rank').val(2);
+	$('#row_Perception_Id').find('.skill-bonus').val(2); //racial elf bonus
+	$('#row_Perform_Id').find('.skill-rank').val(2);
+	$('#row_Spellcraft_Id').find('.skill-rank').val(1);
+	$('#row_Swim_Id').find('.skill-rank').val(1);
+	$('#row_Use_Magic_Device_Id').find('.skill-rank').val(1);
+	
+	modifyAllSkills();
+}
+
+function modifyAllSkills(){
+	var skillList = $('.skill-value');
+	$.each(skillList, function (index, skill) {
+		modifySkill(skill.id);
+	});	
+}
+
+
+
+$('#btnShowId').on("click", function(event) {
+	$('.skill').show();
+	$(event.target).hide();
+	$('#btnHideId').show();
+	
+});
+
+$('#btnHideId').on("click", function(event) {
+	hideUnusable();
+	$(event.target).hide();
+	$('#btnShowId').show();
+});
+
+function hideUnusable() {
+	var skillList = $('.skill-value');
+	$.each(skillList, function (index, skill) {
+		var rank = $('#row_'+skill.id).find('.skill-rank').val();
+		var untrained = $(skill).hasClass('untrained');
+		if (untrained && rank <= 0) {
+			$('#row_'+skill.id).hide();
+		}
+	});	
+}
 
 var skills = [['Acrobatics','Acrobatics_Id',true,'dexId',true],
 ['Appraise','Appraise_Id',false,'intId',false],

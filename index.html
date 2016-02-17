@@ -20,7 +20,7 @@
 </div>
 </header>
 <div >  
-<div id="mainSection">
+<div id="mainSection" >
 	
 	<div class="row attributes">
 		<span class="attribute col-xs-2">Str: <input id="strId" type="number" min="0" max="99" class="form-control attrInput" value="11"/> </span>
@@ -185,14 +185,21 @@
 
 <div id="skillsSection" style="display:none">
 	
-	<div class="row"><div class="col-xs-6"> Armor check penalty: </div> <div class="col-xs-2"> <input type="number" class="form-control" id="acPenalty" value="0"/> </div></div>
+	<div class="row ac-penalty-div">
+		<div class="col-xs-5"> Armor check penalty: </div>
+		<div class="col-xs-4"> <input type="number" class="ac-penalty form-control" id="acPenaltyId" value="0"/></div>
+		<div class="col-xs-3">
+			<input class="btn btn-success btn-hide" id="btnHideId" type="button" value="Hide"/>
+			<input class="btn btn-success active btn-show" style="display:none" id="btnShowId" type="button" value="Show"/>
+		</div>
+	</div>
 	
 	<div style="display:none">
-		<div class="skill row"><div class="col-xs-12"><table><tr id="temp_skill_id">
+		<div class="row"><div class="col-xs-12"><table><tr class="skill" id="temp_skill_id">
 			<td><span class="skill-name">Skill_Name:</span></td>
-			<td><span class="skill-value" id="skill_Id" data="atrId">0</span></td>
-			<td><input class="skill-rank form-control" type="number" data="skill_Id" value="0"/></td>
-			<td><input class="skill-bonus form-control" type="number" data="skill_Id" value="0"/></td>
+			<td><span class="skill-value" id="skill_Id" data-ref-attr="atrId">0</span></td>
+			<td><input class="skill-rank form-control" type="number" data-refSkill="skill_Id" value="0"/></td>
+			<td><input class="skill-bonus form-control" type="number" data-refSkill="skill_Id" value="0"/></td>
 		</tr></table></div></div>
 	</div>
 </div>
