@@ -22,12 +22,12 @@
 <div id="mainSection">
 	
 	<div class="row attributes">
-		<span class="attribute col-xs-2">Str: <input id="strId" type="number" class="form-control attrInput" value="11"/> </span>
-		<span class="attribute col-xs-2">Dex: <input id="dexId" type="number" class="form-control attrInput" value="20"/></span>
-		<span class="attribute col-xs-2">Con: <input id="conId" type="number" class="form-control attrInput" value="13"/></span>
-		<span class="attribute col-xs-2">Int: <input id="intId" type="number" class="form-control attrInput" value="18"/></span>
-		<span class="attribute col-xs-2">Wis: <input id="wisId" type="number" class="form-control attrInput" value="12"/></span>
-		<span class="attribute col-xs-2">Cha: <input id="chaId" type="number" class="form-control attrInput" value="12"/></span>
+		<span class="attribute col-xs-2">Str: <input id="strId" type="number" min="0" max="99" class="form-control attrInput" value="11"/> </span>
+		<span class="attribute col-xs-2">Dex: <input id="dexId" type="number" min="0" max="99" class="form-control attrInput" value="20"/></span>
+		<span class="attribute col-xs-2">Con: <input id="conId" type="number" min="0" max="99" class="form-control attrInput" value="13"/></span>
+		<span class="attribute col-xs-2">Int: <input id="intId" type="number" min="0" max="99" class="form-control attrInput" value="18"/></span>
+		<span class="attribute col-xs-2">Wis: <input id="wisId" type="number" min="0" max="99" class="form-control attrInput" value="12"/></span>
+		<span class="attribute col-xs-2">Cha: <input id="chaId" type="number" min="0" max="99" class="form-control attrInput" value="12"/></span>
 	</div>
 	
     <div class="row abilities">
@@ -54,31 +54,34 @@
 	<br>
     <div id="contentBox2" class="row">
 	
-		<div id="Div2" class="col-xs-3">
+		<div id="Div2" class="saves col-xs-3">
             Saves
             <table>
-                <tr><td>Fort:</td> <td id="svFortId"> </td></tr>
-                <tr><td>Ref:</td> <td id="svRefId"> </td></tr>
-                <tr><td>Will:</td> <td id="svWillId"> </td></tr>
+                <tr><td>Fort:</td> <td id="svFortId"> </td> <td> <input type="number" min="0" max="9" class="saveInput form-control" id="svFortBonusId" value="0"/></td></tr>
+                <tr><td>Ref:</td> <td id="svRefId"> </td> <td> <input type="number" min="0" max="9" class="saveInput form-control" id="svRefBonusId" value="0"/></td></tr>
+                <tr><td>Will:</td> <td id="svWillId"> </td> <td> <input type="number" min="0" max="9" class="saveInput form-control" id="svWillBonusId" value="0"/></td></tr>
             </table>
         </div>
 		
-        <div id="Div1" class="col-xs-4">
+        <div id="Div1" class="defense col-xs-4">
             Armor class
             <table>
                 <tr><td>Normal:</td> <td id="acNormalId"> </td></tr>
                 <tr><td>Flatfooted:</td> <td id="acFlatId"> </td></tr>
                 <tr><td>Touch:</td> <td id="acTouchId"> </td></tr>
+				<tr><td>CMD:</td> <td id="cmdId"> </td></tr>
             </table>
         </div>
 		
 		
 		
-        <div id="Div3" class="col-xs-5">
+        <div id="Div3" class="offense col-xs-5">
             Offense
             <table>
                 <tr><td>Attacks:</td> <td id="attacksId"> </td></tr>
                 <tr><td>Damage:</td> <td id="die">d8</td> <td>+</td><td id="dmgId"> </td></tr>
+				<tr><td>CMB:</td> <td id="cmbId"> </td></tr>
+				<tr><td>CMB/W:</td> <td id="cmbWeaponId"> </td></tr>
 
             </table>
         </div>
@@ -90,7 +93,8 @@
             <table>
                 <tr><td>AC:</td> <td> <input type="number" class="form-control" id="armorAcId" value="0" onchange="calculate()"/> </td></tr>
                 <tr><td>Max dex:</td> <td> <input type="number" class="form-control" id="armorDexId" value="10" onchange="calculate()"/> </td></tr>
-                <tr><td>Magic:</td> <td> <input type="number" class="form-control" id="armorMagicId" value="0" onchange="calculate()"/> </td></tr>
+                <tr><td>Magic:</td> <td> <input type="number" class="form-control" id="armorNaturalId" value="0" onchange="calculate()"/> </td></tr>
+				<tr><td>Deflection:</td> <td> <input type="number" class="form-control" id="deflectionId" value="0" onchange="calculate()"/> </td></tr>
             </table>
         </div>
 		
@@ -99,7 +103,8 @@
             Weapon
             <table>
                 <tr><td>Damage:</td> <td> <input type="text" class="form-control" value="d8" id="wpnDmgId" onchange="calculate()"/></td> </tr>
-                <tr><td>Magic:</td>  <td> <input type="number" class="form-control" value="0" id="wpnMagicId" onchange="calculate()"/></td> </tr>
+                <tr><td>Damage bonus:</td>  <td> <input type="number" class="form-control" value="0" id="wpnMagicId" onchange="calculate()"/></td> </tr>
+				<tr><td>To hit:</td>  <td> <input type="number" class="form-control" value="0" id="wpnMagicId" onchange="calculate()"/></td> </tr>
                 <tr><td>Threat:</td> <td> <input type="number" class="form-control" value="19" id="wpnThreatId" onchange="calculate()"/> </td></tr>
 
             </table>
@@ -130,7 +135,7 @@
         
         
         <div id="all0SpellsId">
-        Level 0: <span id="lvl0AllMax"> 0 </span>/<span id="lvl0AllCurr"> 0 </span>
+        Level 0: <span id="lvl0AllMax">0</span>/<span id="lvl0AllCurr">0</span>
         <table id="spellTable_0_id">
 	        <tr class="spellRow" id="Acid_Splash_Id"><td><a href="javascript:desc();">Acid Splash</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
 	        <tr class="spellRow" id="Arcane_Mark_Id"><td><a href="javascript:desc();">Arcane Mark</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
@@ -152,7 +157,9 @@
         <div id="all1SpellsId">
         Level 1: <span id="lvl1AllMax"> 0 </span>/<span id="lvl1AllCurr"> 0 </span>
         <table id="spellTable_1_id">
-	        <tr class="spellRow" id="Burning_Hands_Id"><td><a href="javascript:desc();">Burning Hands</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
+	        <tr class="spellRow" id="Blade_Lash_Id"><td><a href="javascript:desc();">Blade Lash</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
+			<tr class="spellRow" id="Blade_Tutors_Spirit_Id"><td><a href="javascript:desc();">Blade Tutor's Spirit</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
+			<tr class="spellRow" id="Burning_Hands_Id"><td><a href="javascript:desc();">Burning Hands</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
 	        <tr class="spellRow" id="Chill_Touch_Id"><td><a href="javascript:desc();">Chill Touch</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
 	        <tr class="spellRow" id="Color_Spray_Id"><td><a href="javascript:desc();">Color Spray</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
 	        <tr class="spellRow" id="Corrosive_Touch_Id"><td><a href="javascript:desc();">Corrosive Touch</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
@@ -175,7 +182,8 @@
 	        <tr class="spellRow" id="Unseen_Servant_Id"><td><a href="javascript:desc();">Unseen Servant</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
 	        <tr class="spellRow" id="Vanish_Id"><td><a href="javascript:desc();">Vanish</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
 	        <tr class="spellRow" id="Warding_Weapon_Id"><td><a href="javascript:desc();">Warding Weapon</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
-	        <tr class="spellRow" id="Weaponwand_Id"><td><a href="javascript:desc();">Weaponwand</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
+	        <tr class="spellRow" id="Windy_Escape_Id"><td><a href="javascript:desc();">Windy Escape</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
+			<tr class="spellRow" id="Weaponwand_Id"><td><a href="javascript:desc();">Weaponwand</a></td><td><input id="memId" class="btn memorizeBtn" type="button" value="M"  /><input id="demId" class="btn dememorizeBtn" type="button" value="D"  /><input id="cstId" class="btn castBtn" type="button" value="C"  disabled="disabled"/><input id="rclId" class="btn recallBtn" type="button" value="R"  disabled="disabled"/><span class="memNumId">0</span>/<span class="remNumId">0</span></td></tr>
         </table></div>
 
         <div id="all2SpellsId">

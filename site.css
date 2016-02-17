@@ -80,6 +80,15 @@
 	
 }
 
+.saves .form-control {
+
+	padding: 0px 0px 0px 0px;
+	height: 20px;
+	width: 30px;
+	text-align: center;
+	
+}
+
 
 @media screen and (max-width: 480px) {
 .abilities .btn{

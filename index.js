@@ -21,12 +21,12 @@ function bab(lvl) {
 
 function initialize() {
 	
-	calculate();
 	$('#mainSection').show();
 	$('#spellsSection').hide();
 	$('#descriptionSection').hide();
 	$('#spellDescriptionSection').hide();
-	
+	calculate();
+	knownSpells();
 }
 
 function mainClick() {
@@ -58,17 +58,20 @@ function memorizedClick() {
 	
 }
 
+function knownSpells() {
 
+}
 
 function calculate() {
 	var dex = getAttribute('dexId');
+	var str = getAttribute('strId');
 	var base = 10;
 	var armor = armorBonus();
 	var maxDex = armorMaxDex();
 	if (parseInt(maxDex, 10) < parseInt(dex, 10)) {
 		dex = maxDex;
 	}
-	var enhancement = armorMagic();
+	var enhancement = 0;
 	var luckBracers = 0;
 	var dance = 0;
 	if (level() >= 7) {
@@ -77,7 +80,8 @@ function calculate() {
 	if (level() >= 13) {
 		dance = 4;
 	}
-	var amulet = 0;
+	var amulet = $('#armorNaturalId').val();
+	var deflection = $('#deflectionId').val();
 	var shield = shieldBonus();
 	var haste = hasteBonus();
 	var dodge = 0 + +haste;
@@ -91,7 +95,7 @@ function calculate() {
 	var totalDef = $('#totalDefId').hasClass('active');
 	var acFightDef = 0
 	var toHitFightDef = 0;
-
+	var _bab = bab();
 	if (totalDef == true) {
 		if(level() >= 3) {
 			dodge = +dodge + +6;
@@ -110,25 +114,27 @@ function calculate() {
 		}
 		toHitFightDef = -4;
 	}
-	var acNormal = +base + +armor + +dex + +enhancement + +luckBracers + +dance + +amulet + +shield + +dodge;
+	var acNormal = +base + +dex + +dodge + +armor + +enhancement + +luckBracers + +dance + +amulet + +shield + +deflection;
 	$('#acNormalId').text(acNormal);
 
-	var acFlat = +base + +armor + +enhancement + +luckBracers + +dance + +amulet + +shield;
+	var acFlat = +base + +armor + +enhancement + +luckBracers + +dance + +amulet + +shield + +deflection;
 	$('#acFlatId').text(acFlat);
 
-	var acTouch = +base +  +dex +  +luckBracers + +dance + +dodge;
+	var acTouch = +base +  +dex +  +luckBracers + +dance + +dodge + +deflection;
 	$('#acTouchId').text(acTouch);
+	
+	var cmd = +base + +_bab + +str + +dex + +deflection + +dodge + +luckBracers + +dance;
+	$('#cmdId').text(cmd);
 
 
-
-	var str = getAttribute('strId');
-	var atr = str;
+	
+	var atrToHit = str;
 	var finesse = $('#finesseId').hasClass('active');
-	if (finesse & dex >= atr) {
-		atr = dex;
+	if (finesse && dex >= atrToHit) {
+		atrToHit = dex;
 	}
-	var _bab = bab();
-	var toHit = +_bab + +atr + +focus + +alphlang + +accStr + +spellCmb + +haste + +toHitFightDef;
+	
+	var toHit = +_bab + +atrToHit + +focus + +alphlang + +accStr + +spellCmb + +haste + +toHitFightDef;
 	var attacks = [];
 	var dmg = "";
 	if (totalDef != true) { 
@@ -150,24 +156,31 @@ function calculate() {
 			dmg = +str + +alphlang + +arcStr;
 		}
 	}
+	_bab = bab();
 
 	$('#attacksId').text(attacks);
 	$('#dmgId').text(dmg);
+	var cmb = +_bab + +str;
+	$('#cmbId').text(cmb);
+	var cmbWeapon = +_bab + +atrToHit + +focus + +alphlang;
+	$('#cmbWeaponId').text(cmbWeapon);
+
 	
 	var con = getAttribute('conId');
-	var fort=con + fortSave(level());
+	var fort=+con + +fortSave(level()) + +$('#svFortBonusId').val();
 	$('#svFortId').text(fort);
 	
 	var wis = getAttribute('wisId');
-	var will=wis + willSave(level());
+	var will=+wis + +willSave(level()) + +$('#svWillBonusId').val();
 	$('#svWillId').text(will);
 	
-	var ref=dex + refSave(level());
+	var ref=+dex + +refSave(level()) + +$('#svRefBonusId').val();
 	$('#svRefId').text(ref);
 	
 	var die = $('#wpnDmgId').val();
 	$('#die').text(die);
-
+	
+	
 
 }
 
@@ -180,10 +193,6 @@ function getAttribute(id){
 
 function armorMaxDex() {
 	return $('#armorDexId').val();
-}
-
-function armorMagic() {
-	return $('#armorMagicId').val();
 }
 
 function armorBonus() {
@@ -222,7 +231,7 @@ function accurateStrike() {
 	var chk = $('#accStrId').hasClass('active');
 	var bonus = 0;
 	if (chk == true) {
-		var int = $('#intId').text();
+		var int = $('#intId').val();
 		int = +int - +10;
 		int = Math.floor(int / 2);
 		bonus = int;
@@ -357,7 +366,7 @@ function maxNumSpells(spellsLevel) {
 	if(spellsLevel == 6) {
 		baseNum = baseSpells6Level()
 	}
-	var atr = $('#intId').text();
+	var atr = $('#intId').val();
 	atr = +atr - +10;
 	atr = Math.floor(atr / 2);
 	var bonusNum = 0;
@@ -503,7 +512,7 @@ function desc() {
 	
 	var spellLevel = $('#currSpellLvlId').text();
 	var maxNumber = $('#lvl' + spellLevel + 'AllMax').text();
-	var currNumber = $('#lvl' + spellLevel + 'AllCurr').text();
+	var currNumber = +$('#lvl' + spellLevel + 'AllCurr').text();
 	if(currNumber >= maxNumber) {
 		$('#descMemorizeBtn').prop('disabled', true);
 	}
@@ -538,13 +547,13 @@ function reEvaluateAll(spellLevel, reset) {
 		spellTable.find('.remNumId').text(0);
 	}
 	
-	var maxNumber = $('#lvl' + spellLevel + 'AllMax').text();
-	var currNumber = $('#lvl' + spellLevel + 'AllCurr').text();
+	var maxNumber = +$('#lvl' + spellLevel + 'AllMax').text();
+	var currNumber = +$('#lvl' + spellLevel + 'AllCurr').text();
 	if(currNumber >= maxNumber) {
-		spellTable.find('.memorizedBtn').prop('disabled', true);
+		spellTable.find('.memorizeBtn').prop('disabled', true);
 	}
 	else {
-		spellTable.find('.memorizedBtn').prop('disabled', false);
+		spellTable.find('.memorizeBtn').prop('disabled', false);
 	}
 	
 	var spells = spellTable.find('.spellRow');
@@ -576,6 +585,16 @@ function reEvaluateAll(spellLevel, reset) {
 	
 	
 }
+
+function knownSpells() {
+	$('.spellRow').hide();
+	//all cantrips known
+	$('#all0SpellsId').find('.spellRow').show();
+	
+	//level 1 spells known
+	
+}
+
 
 
 function memorizeDefault() {
@@ -609,7 +628,7 @@ function memorizeDefault() {
 function clearAll() {
 	for (var spellLevel = 0; spellLevel <= 6; spellLevel++) {
 		var currNumber = $('#lvl' + spellLevel + 'AllCurr');
-		currNumber0;
+		currNumber.text(0);
 		reEvaluateAll(spellLevel, true);
 	}
 			
@@ -668,6 +687,14 @@ $(".castBtn").on("click", function(event) {
 	var parent = event.target.parentNode.parentNode;
 	spellsNumber(parent, '.remNumId', -1);
 	reEvaluateAll();
+});
+
+$(".attrInput").on("change", function(event) {
+	calculate();
+});
+
+$(".saveInput").on("change", function(event) {
+	calculate();
 });
 
 $(".recallBtn").on("click", function(event) {
