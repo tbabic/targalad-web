@@ -85,7 +85,8 @@ function calculate() {
 	var accStr = accurateStrike();
 	var spellCmb = spellCombat();
 	var focus = 0;
-	var alphlang = weaponBonus();
+	var wpnDamageBonus = weaponDamageBonus();
+	var wpnToHitBonus = weaponToHitBonus();
 
 	var fightDef =$('#fightDefId').hasClass('active');
 	var totalDef = $('#totalDefId').hasClass('active');
@@ -130,7 +131,7 @@ function calculate() {
 		atrToHit = dex;
 	}
 	
-	var toHit = +_bab + +atrToHit + +focus + +alphlang + +accStr + +spellCmb + +haste + +toHitFightDef;
+	var toHit = +_bab + +atrToHit + +focus + +wpnToHitBonus + +accStr + +spellCmb + +haste + +toHitFightDef;
 	var attacks = [];
 	var dmg = "";
 	if (totalDef != true) { 
@@ -146,10 +147,10 @@ function calculate() {
 			toHit+= -5;			
 		}
 		if ($('#danceId').hasClass('active')) {
-			dmg = +dex + +alphlang + +arcStr;
+			dmg = +dex + +wpnDamageBonus + +arcStr;
 		}
 		else {
-			dmg = +str + +alphlang + +arcStr;
+			dmg = +str + +wpnDamageBonus + +arcStr;
 		}
 	}
 	_bab = bab();
@@ -158,7 +159,7 @@ function calculate() {
 	$('#dmgId').text(dmg);
 	var cmb = +_bab + +str;
 	$('#cmbId').text(cmb);
-	var cmbWeapon = +_bab + +atrToHit + +focus + +alphlang;
+	var cmbWeapon = +_bab + +atrToHit + +focus + +wpnToHitBonus;
 	$('#cmbWeaponId').text(cmbWeapon);
 
 	
@@ -253,9 +254,22 @@ function spellDance() {
 	return Math.floor(bonus);
 }
 
-function weaponBonus() {
+function weaponDamageBonus() {
 	var chk = $('#gmwId').hasClass('active');
-	var bonus = $('#wpnMagicId').val();
+	var bonus = $('#wpnBonusId').val();
+	if (chk == true) {
+		var gmw = level() / 4;
+		if (gmw > bonus) {
+			bonus = gmw;
+		}
+	}
+	return Math.floor(bonus);
+	
+}
+
+function weaponToHitBonus() {
+	var chk = $('#gmwId').hasClass('active');
+	var bonus = $('#wpnToHitId').val();
 	if (chk == true) {
 		var gmw = level() / 4;
 		if (gmw > bonus) {
