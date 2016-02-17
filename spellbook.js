@@ -274,9 +274,10 @@ function reEvaluateAll(spellLevel, reset) {
 
 
 function memorize(spellId, spellLevel) {
-	console.log('memorizing spell');
 	var parent = $('#'+spellId);
-	var spellLevel = $('#currSpellLvlId').text();
+	if (spellLevel === undefined) {
+		spellLevel = $('#currSpellLvlId').text();
+	}
 	spellsNumber(parent, '.memNumId', +1);
 	spellsNumber(parent, '.remNumId', +1);	
 	var currNumber = $('#lvl' + spellLevel + 'AllCurr');
@@ -375,30 +376,14 @@ function spellsNumber(elem, actionId, value) {
 
 function memorizeDefault() {
 	
-	memorize('Arcane_Mark_Id',0);
 	memorize('Dancing_Lights_Id',0);
 	memorize('Acid_Splash_Id',0);
 	memorize('Detect_Magic_Id',0);
-	memorize('Mage_Hand_Id',0);
+	memorize('Flare_Id',0);
 	
 	memorize('Shocking_Grasp_Id',1);
-	memorize('Shocking_Grasp_Id',1);
-	memorize('Chill_Touch_Id',1);
-	memorize('Shield_Id',1);
 	memorize('Shield_Id',1);
 	memorize('Vanish_Id',1);
-	memorize('Weaponwand_Id',1);
-	
-	memorize('Mirror_Image_Id',2);
-	memorize("Cat's_Grace_Id",2);
-	memorize("Cat's_Grace_Id",2);
-	memorize('Bladed_Dash_Id',2);
-	memorize('Glitterdust_Id',2);
-	
-	memorize('Magic_Weapon,_Greater_Id',3);
-	memorize('Fireball_Id',3);
-	memorize('Fly_Id',3);
-	memorize('Elemental_Aura_Id',3);
 }
 
 
