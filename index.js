@@ -1,7 +1,7 @@
 var descriptionSpellId = '';
 
 function level() {
-	return 2;
+	return 3;
 }
 
 function willSave(lvl) {

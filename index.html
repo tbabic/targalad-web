@@ -47,8 +47,8 @@
         </div>
 		
 		<div class="btn-group-vertical col-xs-4" data-toggle="buttons">
-			<label class="btn btn-primary" id="finesseId"> <input type="checkbox" />Finesse</label>
-			<label class="btn btn-primary" id="danceId"> <input type="checkbox" />Dance</label>
+			<label class="btn btn-primary active" id="finesseId"> <input type="checkbox" />Finesse</label>
+			<label class="btn btn-primary active" id="danceId"> <input type="checkbox" />Dance</label>
 			<label class="btn btn-primary" id="arcStrId"> <input type="checkbox" o/>Arcane strike </label>
         </div>
     </div>
@@ -80,7 +80,7 @@
             Offense
             <table>
                 <tr><td>Attacks:</td> <td id="attacksId"> </td></tr>
-                <tr><td>Damage:</td> <td id="die">d8</td> <td>+</td><td id="dmgId"> </td></tr>
+                <tr><td>Damage:</td> <td id="die">d6</td> <td>+</td><td id="dmgId"> </td></tr>
 				<tr><td>CMB:</td> <td id="cmbId"> </td></tr>
 				<tr><td>CMB/W:</td> <td id="cmbWeaponId"> </td></tr>
 
@@ -92,8 +92,8 @@
         <div id="Div4" class="armor col-xs-6">
             Armor
             <table>
-                <tr><td>AC:</td> <td> <input type="number" class="form-control" id="armorAcId" value="0" onchange="calculate()"/> </td></tr>
-                <tr><td>Max dex:</td> <td> <input type="number" class="form-control" id="armorDexId" value="10" onchange="calculate()"/> </td></tr>
+                <tr><td>AC:</td> <td> <input type="number" class="form-control" id="armorAcId" value="4" onchange="calculate()"/> </td></tr>
+                <tr><td>Max dex:</td> <td> <input type="number" class="form-control" id="armorDexId" value="5" onchange="calculate()"/> </td></tr>
                 <tr><td>Natural:</td> <td> <input type="number" class="form-control" id="armorNaturalId" value="0" onchange="calculate()"/> </td></tr>
 				<tr><td>Deflection:</td> <td> <input type="number" class="form-control" id="deflectionId" value="0" onchange="calculate()"/> </td></tr>
             </table>
@@ -103,10 +103,10 @@
         <div id="Div5" class="weapon col-xs-6">
             Weapon
             <table>
-                <tr><td>Damage:</td> <td> <input type="text" class="form-control" value="d8" id="wpnDmgId" onchange="calculate()"/></td> </tr>
-                <tr><td>Damage bonus:</td>  <td> <input type="number" class="form-control" value="0" id="wpnBonusId" onchange="calculate()"/></td> </tr>
-				<tr><td>To hit:</td>  <td> <input type="number" class="form-control" value="0" id="wpnToHitId" onchange="calculate()"/></td> </tr>
-                <tr><td>Threat:</td> <td> <input type="number" class="form-control" value="19" id="wpnThreatId" onchange="calculate()"/> </td></tr>
+                <tr><td>Damage:</td> <td> <input type="text" class="form-control" value="d6" id="wpnDmgId" onchange="calculate()"/></td> </tr>
+                <tr><td>Damage bonus:</td>  <td> <input type="number" class="form-control" value="1" id="wpnBonusId" onchange="calculate()"/></td> </tr>
+				<tr><td>To hit:</td>  <td> <input type="number" class="form-control" value="1" id="wpnToHitId" onchange="calculate()"/></td> </tr>
+                <tr><td>Threat:</td> <td> <input type="number" class="form-control" value="18" id="wpnThreatId" onchange="calculate()"/> </td></tr>
 
             </table>
         </div>
@@ -187,7 +187,7 @@
 	
 	<div class="row ac-penalty-div">
 		<div class="col-xs-5"> Armor check penalty: </div>
-		<div class="col-xs-4"> <input type="number" class="ac-penalty form-control" id="acPenaltyId" value="0"/></div>
+		<div class="col-xs-4"> <input type="number" class="ac-penalty form-control" id="acPenaltyId" value="2"/></div>
 		<div class="col-xs-3">
 			<input class="btn btn-success btn-hide" id="btnHideId" type="button" value="Hide"/>
 			<input class="btn btn-success active btn-show" style="display:none" id="btnShowId" type="button" value="Show"/>

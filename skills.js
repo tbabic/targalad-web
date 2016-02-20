@@ -61,7 +61,7 @@ $('#acPenaltyId').on("change", function(event) {
 });
 
 function initialRanks() {
-	$('#row_Acrobatics_Id').find('.skill-rank').val(1);	
+	$('#row_Acrobatics_Id').find('.skill-rank').val(3);	
 	$('#row_Craft_Id').find('.skill-rank').val(1);
 	$('#row_Knowledge_arcana_Id').find('.skill-rank').val(1);
 	$('#row_Knowledge_dungeoneering_Id').find('.skill-rank').val(1);
