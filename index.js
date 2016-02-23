@@ -20,7 +20,19 @@ function bab(lvl) {
 	return Math.floor(level()*0.75);
 }
 
+function setOverrideBackbutton()
+{
+	document.addEventListener("backbutton", backButtonTap, true);
+}
+
+function backButtonTap()
+{
+//Do not remove
+}
+
+
 function initialize() {
+	document.addEventListener("deviceready", setOverrideBackbutton, false);
 	
 	$('#mainSection').show();
 	$('#spellsSection').hide();
