@@ -27,12 +27,13 @@ function setOverrideBackbutton()
 
 function backButtonTap()
 {
-//Do not remove
+	window.confirm("back");
 }
 
 
 function initialize() {
 	document.addEventListener("deviceready", setOverrideBackbutton, false);
+	document.addEventListener("backbutton", backButtonTap, true);
 	
 	$('#mainSection').show();
 	$('#spellsSection').hide();
