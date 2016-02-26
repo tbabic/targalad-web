@@ -63,13 +63,15 @@ $('#acPenaltyId').on("change", function(event) {
 function initialRanks() {
 	$('#row_Acrobatics_Id').find('.skill-rank').val(3);	
 	$('#row_Craft_Id').find('.skill-rank').val(1);
+	$('#row_Disable_Device_Id').find('.skill-rank').val(1);
 	$('#row_Knowledge_arcana_Id').find('.skill-rank').val(1);
 	$('#row_Knowledge_dungeoneering_Id').find('.skill-rank').val(1);
+	$('#row_Knowledge_nature_Id').find('.skill-rank').val(1);
 	$('#row_Knowledge_planes_Id').find('.skill-rank').val(1);
-	$('#row_Perception_Id').find('.skill-rank').val(2);
+	$('#row_Perception_Id').find('.skill-rank').val(3);
 	$('#row_Perception_Id').find('.skill-bonus').val(2); //racial elf bonus
 	$('#row_Perform_Id').find('.skill-rank').val(2);
-	$('#row_Spellcraft_Id').find('.skill-rank').val(1);
+	$('#row_Spellcraft_Id').find('.skill-rank').val(2);
 	$('#row_Swim_Id').find('.skill-rank').val(1);
 	$('#row_Use_Magic_Device_Id').find('.skill-rank').val(1);
 	
@@ -118,7 +120,7 @@ var skills = [['Acrobatics','Acrobatics_Id',true,'dexId',true],
 ['Disable Device*','Disable_Device_Id',true,'dexId',false],
 ['Disguise','Disguise_Id',false,'chaId',false],
 ['Escape Artist','Escape_Artist_Id',true,'dexId',false],
-['Fly','Fly_Id',true,'dexId',true],
+['Fly','Fly_Skill_Id',true,'dexId',true],
 ['Handle Animal*','Handle_Animal_Id',false,'chaId',false],
 ['Heal','Heal_Id',false,'wisId',false],
 ['Intimidate','Intimidate_Id',false,'chaId',false],
