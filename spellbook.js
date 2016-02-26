@@ -376,13 +376,14 @@ function spellsNumber(elem, actionId, value) {
 
 function memorizeDefault() {
 	
-	memorize('Dancing_Lights_Id',0);
+	memorize('Disrupt_Undead_Id',0);
 	memorize('Acid_Splash_Id',0);
 	memorize('Detect_Magic_Id',0);
 	memorize('Flare_Id',0);
 	
 	memorize('Shocking_Grasp_Id',1);
-	memorize('Shield_Id',1);
+	memorize('Shocking_Grasp_Id',1);
+	memorize('Blade_Lash_Id',1);
 	memorize('Vanish_Id',1);
 }
 
