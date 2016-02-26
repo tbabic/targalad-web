@@ -360,6 +360,8 @@ function knownSpells() {
 	$('#Vanish_Id').show();
 	$('#Windy_Escape_Id').show();
 	
+	$('#Blade_Tutors_Spirit_Id').show();
+	$('#Feather_Fall_Id').show();
 }
 
 function spellsNumber(elem, actionId, value) {
